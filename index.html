@@ -21,6 +21,7 @@
             overflow-y: hidden; 
         }
         
+        /* === 第一層導覽列 === */
         .top-nav { 
             display: flex; justify-content: center; align-items: center; gap: 10px; 
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
@@ -40,6 +41,7 @@
         .nav-item:hover { color: #4b5563; }
         .nav-item.active { color: #374151; border-bottom-color: #374151; }
 
+        /* === 分頁內容區 === */
         .tab-content { 
             display: none; padding: 0 15px; animation: fadeIn 0.2s ease; 
             max-width: 98%; margin: 0 auto; 
@@ -47,6 +49,7 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* === 膠囊按鈕區 === */
         .tools-group { 
             display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
         }
@@ -64,15 +67,18 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
+        /* 外部連結的專屬樣式 (淡藍色系) */
         .btn-link { color: #0284c7; background-color: #f0f9ff; border-color: #7dd3fc; }
         .btn-link:active { background-color: #e0f2fe; border-color: #0284c7; }
 
+        /* === QR Code 圖片區 === */
         .qr-image { 
             width: 300px; height: 300px; background-color: #ffffff; padding: 15px; 
             border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; cursor: pointer; 
         }
         #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
 
+        /* === 同頁圖片顯示區 === */
         .image-viewer { display: none; text-align: center; }
         .display-img { 
             max-width: 100%; max-height: calc(100vh - 160px); 
@@ -82,7 +88,7 @@
 </head>
 <body>
 
-    <!-- 導覽列：更新順序 -->
+    <!-- 導覽列 -->
     <div class="top-nav">
         <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">QR code</div>
         <div id="nav-hosp" class="nav-item" onclick="switchTab('tab-hosp', 'nav-hosp')">門診表</div>
@@ -103,7 +109,7 @@
         </div>
     </div>
 
-    <!-- 頁籤 2：門診表 (順序提前) -->
+    <!-- 頁籤 2：門診表 -->
     <div id="tab-hosp" class="tab-content">
         <div class="tools-group">
             <button id="btn-default-hosp" class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
@@ -116,7 +122,7 @@
         </div>
     </div>
 
-    <!-- 頁籤 3：衛教圖卡 (順序延後) -->
+    <!-- 頁籤 3：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
             <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
@@ -132,11 +138,19 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
+            <!-- 網頁與外部工具 (淡藍色) -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text btn-link">IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text btn-link">CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text btn-link">KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text btn-link">Clerk Manual</a>
             
+            <!-- 🚀 新增的 ICD 10 查詢工具 -->
+            <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link">衛福部</a>
+            <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link">WHO</a>
+            <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link">AAPC</a>
+            <a href="https://www.icd10data.com/" class="btn-text btn-link">ICD10Data</a>
+            
+            <!-- 內部圖片工具 (深灰色) -->
             <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
