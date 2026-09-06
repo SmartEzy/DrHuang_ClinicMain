@@ -69,18 +69,7 @@
 
         /* 外部連結專屬樣式 (淡藍色系) */
         .btn-link { color: #0284c7; background-color: #f0f9ff; border-color: #7dd3fc; }
-        .btn-link:active, .btn-link.active-sub { background-color: #e0f2fe; border-color: #0284c7; }
-        
-        /* 🚀 子選單專屬樣式 */
-        .sub-menu {
-            display: none; /* 預設隱藏 */
-            flex-basis: 100%; /* 強制換行，佔滿一整列 */
-            justify-content: center; 
-            flex-wrap: wrap; 
-            gap: 10px; 
-            padding: 5px 0 10px 0;
-            animation: fadeIn 0.2s ease;
-        }
+        .btn-link:active, .btn-link.active-btn { background-color: #e0f2fe; border-color: #0284c7; }
 
         /* === QR Code 圖片區 === */
         .qr-image { 
@@ -90,10 +79,20 @@
         #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
 
         /* === 同頁圖片顯示區 === */
-        .image-viewer { display: none; text-align: center; }
+        .image-viewer { display: none; text-align: center; animation: fadeIn 0.2s ease; }
         .display-img { 
             max-width: 100%; max-height: calc(100vh - 160px); 
             width: auto; object-fit: contain; box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+        }
+
+        /* 🚀 === 共用子選單顯示區 (出現在跟圖片一樣的下方位置) === */
+        .sub-links-viewer { 
+            display: none; /* 預設隱藏 */
+            justify-content: center; 
+            flex-wrap: wrap; 
+            gap: 15px; 
+            padding: 20px; 
+            animation: fadeIn 0.2s ease;
         }
     </style>
 </head>
@@ -154,24 +153,22 @@
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text btn-link">KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text btn-link">Clerk Manual</a>
             
-            <!-- 🚀 ICD 10 折疊選單主按鈕 -->
-            <button id="btn-icd" class="btn-text btn-link" onclick="toggleSubMenu('menu-icd', this)">ICD 10 ▼</button>
+            <!-- 🚀 ICD 10 觸發按鈕 (改為呼叫 showSubLinks 函數) -->
+            <button id="btn-icd" class="btn-text btn-link tool-btn" onclick="showSubLinks(this)">ICD 10</button>
             
-            <!-- 🚀 隱藏的 ICD 10 子選單區塊 -->
-            <div id="menu-icd" class="sub-menu">
-                <!-- 稍微縮小字體與間距，讓子選單看起來更精緻 -->
-                <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">衛福部</a>
-                <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">WHO</a>
-                <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">AAPC</a>
-                <a href="https://www.icd10data.com/" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">ICD10Data</a>
-            </div>
-            
-            <!-- 內部圖片工具 (深灰色) -->
-            <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
-            <button class="btn-text img-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
-            <button class="btn-text img-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
-            <button class="btn-text img-btn" onclick="showImage('tools_anticoagulant.png', this)">Anticoagulant</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_anticoagulant.png', this)">Anticoagulant</button>
         </div>
+    </div>
+
+    <!-- 🚀 新增：子連結顯示區 (顯示於圖片原先出現的位置) -->
+    <div id="subLinksViewer" class="sub-links-viewer">
+        <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">衛福部</a>
+        <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">WHO</a>
+        <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">AAPC</a>
+        <a href="https://www.icd10data.com/" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">ICD10Data</a>
     </div>
 
     <!-- 共用圖片顯示區 -->
@@ -187,42 +184,43 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
-            // 切換分頁時，重置並收起 ICD 10 的折疊選單
-            document.getElementById('menu-icd').style.display = 'none';
-            document.getElementById('btn-icd').classList.remove('active-sub');
-            document.getElementById('btn-icd').innerText = 'ICD 10 ▼';
+            // 切換分頁時，隱藏下方所有的顯示區 (圖片與子連結)
+            document.getElementById('imageViewer').style.display = 'none';
+            document.getElementById('subLinksViewer').style.display = 'none';
+            
+            // 清除按鈕選取狀態
+            document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
 
+            // 預設行為
             if (tabId === 'tab-edu') {
                 showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
             } else if (tabId === 'tab-hosp') {
                 showImage('hosp_kmuh.png', document.getElementById('btn-default-hosp'));
-            } else {
-                document.getElementById('imageViewer').style.display = 'none';
-                document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
             }
         }
 
-        // 🚀 新增：折疊子選單的切換邏輯
-        function toggleSubMenu(menuId, buttonElement) {
-            const menu = document.getElementById(menuId);
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'flex';
-                buttonElement.classList.add('active-sub');
-                buttonElement.innerText = 'ICD 10 ▲';
-            } else {
-                menu.style.display = 'none';
-                buttonElement.classList.remove('active-sub');
-                buttonElement.innerText = 'ICD 10 ▼';
-            }
+        // 🚀 新增：顯示下方連結按鈕的功能
+        function showSubLinks(buttonElement) {
+            // 隱藏圖片區，顯示連結區
+            document.getElementById('imageViewer').style.display = 'none';
+            document.getElementById('subLinksViewer').style.display = 'flex';
+            
+            // 更新按鈕選取狀態 (跟圖片按鈕連動互斥)
+            document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
+            buttonElement.classList.add('active-btn');
         }
 
         function showImage(src, buttonElement) {
+            // 隱藏連結區，顯示圖片區
+            document.getElementById('subLinksViewer').style.display = 'none';
+            
             const viewer = document.getElementById('imageViewer');
             const img = document.getElementById('displayImg');
             viewer.style.display = 'block';
             img.src = src;
 
-            document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
+            // 更新按鈕選取狀態 (跟子連結按鈕連動互斥)
+            document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
             buttonElement.classList.add('active-btn');
         }
 
