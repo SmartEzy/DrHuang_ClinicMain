@@ -67,20 +67,15 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* === 🏠 首頁 Emoji 專屬圓形底 === */
-        .home-emoji {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 26px; /* 固定寬高畫出完美圓形 */
-            height: 26px;
-            border-radius: 50%;
-            transition: all 0.2s ease;
-        }
-        /* 當按鈕被選取時，顯示白色圓形底 */
-        .active-btn .home-emoji {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        /* 🚀 SVG 圖示專屬樣式 (自動繼承文字顏色) */
+        .svg-icon {
+            width: 20px; 
+            height: 20px;
+            stroke: currentColor; /* 核心：自動跟隨父層文字變色 */
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         /* 外部連結專屬樣式 */
@@ -166,9 +161,12 @@
     <!-- 頁籤 3：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 加上 <span> 包裹 Emoji，用來套用白底樣式 -->
+            <!-- 🚀 修改：放入 SVG 線條房屋圖示 -->
             <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">
-                <span class="home-emoji">🏠</span>
+                <svg class="svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
             </button>
             <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
             <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
