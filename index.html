@@ -26,11 +26,12 @@
             display: flex; justify-content: center; align-items: center; gap: 15px;
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
             padding-top: 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
+            flex-wrap: wrap; /* 允許導覽列在手機上自然換行 */
         }
         .nav-item { 
             padding: 10px 24px; font-size: 18px; font-weight: bold; color: #9ca3af; 
             cursor: pointer; border-bottom: 4px solid transparent; transition: all 0.2s ease;
-            white-space: nowrap; /* 🚀 確保主導覽列文字不換行 */
+            white-space: nowrap; /* 確保主導覽列文字不換行 */
         }
         .nav-item:hover { color: #4b5563; }
         .nav-item.active { color: #374151; border-bottom-color: #374151; }
@@ -47,31 +48,13 @@
         .tools-group { 
             display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
         }
-        
-        /* 🚀 手機版面優化：啟動左右滑動，按鈕不折行 */
-        @media (max-width: 768px) {
-            .tools-group, .top-nav {
-                flex-wrap: nowrap;
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 5px; 
-                -webkit-overflow-scrolling: touch; 
-            }
-            /* 隱藏醜醜的原生捲軸 */
-            .tools-group::-webkit-scrollbar, .top-nav::-webkit-scrollbar {
-                display: none;
-            }
-        }
 
         .btn-text {
             display: inline-flex; align-items: center; justify-content: center;
             padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
             background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
             text-decoration: none; cursor: pointer; transition: all 0.2s ease;
-            
-            /* 🚀 確保膠囊內的單字(如 Cornea ulcer)絕對不會被切成兩行 */
-            white-space: nowrap; 
-            flex-shrink: 0; 
+            white-space: nowrap; /* 🚀 確保膠囊內的單字絕對不會被切成兩行 */
         }
         .btn-text.active-btn { 
             background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
@@ -81,9 +64,9 @@
 
         /* 🚀 Tools 區隔：外部連結與講義的專屬樣式 (淡藍色系) */
         .btn-link {
-            color: #0284c7; /* 深藍字 */
-            background-color: #f0f9ff; /* 淡藍底 */
-            border-color: #7dd3fc; /* 淡藍框 */
+            color: #0284c7; 
+            background-color: #f0f9ff; 
+            border-color: #7dd3fc; 
         }
         .btn-link:active {
             background-color: #e0f2fe;
@@ -164,13 +147,11 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 加上 class="btn-link" 變成淡藍色系 -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text btn-link">IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text btn-link">CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text btn-link">KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text btn-link">Clerk Manual</a>
             
-            <!-- 圖片按鈕維持原來的深灰色系 -->
             <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
