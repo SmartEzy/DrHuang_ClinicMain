@@ -15,31 +15,37 @@
             padding: 0; 
             background-color: #f3f4f6; 
             text-align: center; 
+            overflow-y: hidden; /* 隱藏整個網頁的垂直捲軸，確保絕對不需滑動 */
         }
         
         /* === 第一層導覽列 === */
         .top-nav { 
             display: flex; justify-content: center; align-items: center; gap: 15px;
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            padding-top: 15px; margin-bottom: 30px; position: sticky; top: 0; z-index: 100; 
+            padding-top: 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
         }
         .nav-item { 
-            padding: 12px 24px; font-size: 18px; font-weight: bold; color: #9ca3af; 
+            padding: 10px 24px; font-size: 18px; font-weight: bold; color: #9ca3af; 
             cursor: pointer; border-bottom: 4px solid transparent; transition: all 0.2s ease;
         }
         .nav-item:hover { color: #4b5563; }
         .nav-item.active { color: #374151; border-bottom-color: #374151; }
 
-        /* === 分頁內容區 === */
-        .tab-content { display: none; padding: 0 20px 40px 20px; animation: fadeIn 0.3s ease; max-width: 900px; margin: 0 auto; }
+        /* === 分頁內容區 (解除了 900px 的寬度限制，讓按鈕一字排開) === */
+        .tab-content { 
+            display: none; padding: 0 15px; animation: fadeIn 0.2s ease; 
+            max-width: 98%; margin: 0 auto; 
+        }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === 膠囊按鈕共用樣式 === */
-        .tools-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; }
+        /* === 膠囊按鈕 === */
+        .tools-group { 
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
+        }
         .btn-text {
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 12px 28px; font-size: 18px; font-weight: bold; color: #4b5563; 
+            padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
             background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
             text-decoration: none; cursor: pointer; transition: all 0.2s ease;
         }
@@ -51,13 +57,24 @@
 
         /* === QR Code 圖片區 === */
         .qr-image { 
-            width: 350px; height: 350px; background-color: #ffffff; padding: 20px; 
+            width: 300px; height: 300px; background-color: #ffffff; padding: 15px; 
             border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; 
         }
 
         /* === 同頁圖片顯示區 === */
-        .image-viewer { display: none; text-align: center; }
-        .display-img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .image-viewer { 
+            display: none; text-align: center; 
+        }
+        
+        /* 🚀 圖片動態高度限制：自動扣除選單高度，完全貼合螢幕 */
+        .display-img { 
+            max-width: 100%; 
+            max-height: calc(100vh - 160px); 
+            width: auto;
+            object-fit: contain; /* 確保圖片比例不變形 */
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+        }
     </style>
 </head>
 <body>
@@ -84,7 +101,6 @@
     <!-- 頁籤 2：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 加上 id="btn-default-edu" 以供程式定位 -->
             <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
             <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
             <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
@@ -98,7 +114,6 @@
     <!-- 頁籤 3：門診表 -->
     <div id="tab-hosp" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 加上 id="btn-default-hosp" 以供程式定位 -->
             <button id="btn-default-hosp" class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_kmsh.png', this)">小港</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_kmugh.png', this)">岡山</button>
@@ -116,7 +131,6 @@
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text">CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" target="_blank" class="btn-text">高醫眼科藥物圖鑑</a>
             <a href="tools_kmuhclerkmanual.pdf" target="_blank" class="btn-text">高醫眼科講義</a>
-
             <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
@@ -137,13 +151,11 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
-            // 🚀 判斷點擊的是哪一個頁籤，並執行對應的預設動作
             if (tabId === 'tab-edu') {
                 showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
             } else if (tabId === 'tab-hosp') {
                 showImage('hosp_kmuh.png', document.getElementById('btn-default-hosp'));
             } else {
-                // 如果是 QR Code 或 Tools，隱藏共用圖片區並取消按鈕選取狀態
                 document.getElementById('imageViewer').style.display = 'none';
                 document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
             }
