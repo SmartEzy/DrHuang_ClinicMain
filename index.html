@@ -67,9 +67,20 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* 外部連結的專屬樣式 (淡藍色系) */
+        /* 外部連結專屬樣式 (淡藍色系) */
         .btn-link { color: #0284c7; background-color: #f0f9ff; border-color: #7dd3fc; }
-        .btn-link:active { background-color: #e0f2fe; border-color: #0284c7; }
+        .btn-link:active, .btn-link.active-sub { background-color: #e0f2fe; border-color: #0284c7; }
+        
+        /* 🚀 子選單專屬樣式 */
+        .sub-menu {
+            display: none; /* 預設隱藏 */
+            flex-basis: 100%; /* 強制換行，佔滿一整列 */
+            justify-content: center; 
+            flex-wrap: wrap; 
+            gap: 10px; 
+            padding: 5px 0 10px 0;
+            animation: fadeIn 0.2s ease;
+        }
 
         /* === QR Code 圖片區 === */
         .qr-image { 
@@ -138,17 +149,22 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <!-- 網頁與外部工具 (淡藍色) -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text btn-link">IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text btn-link">CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text btn-link">KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text btn-link">Clerk Manual</a>
             
-            <!-- 🚀 新增的 ICD 10 查詢工具 -->
-            <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link">衛福部</a>
-            <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link">WHO</a>
-            <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link">AAPC</a>
-            <a href="https://www.icd10data.com/" class="btn-text btn-link">ICD10Data</a>
+            <!-- 🚀 ICD 10 折疊選單主按鈕 -->
+            <button id="btn-icd" class="btn-text btn-link" onclick="toggleSubMenu('menu-icd', this)">ICD 10 ▼</button>
+            
+            <!-- 🚀 隱藏的 ICD 10 子選單區塊 -->
+            <div id="menu-icd" class="sub-menu">
+                <!-- 稍微縮小字體與間距，讓子選單看起來更精緻 -->
+                <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">衛福部</a>
+                <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">WHO</a>
+                <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">AAPC</a>
+                <a href="https://www.icd10data.com/" class="btn-text btn-link" style="font-size: 15px; padding: 8px 18px;">ICD10Data</a>
+            </div>
             
             <!-- 內部圖片工具 (深灰色) -->
             <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
@@ -171,6 +187,11 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
+            // 切換分頁時，重置並收起 ICD 10 的折疊選單
+            document.getElementById('menu-icd').style.display = 'none';
+            document.getElementById('btn-icd').classList.remove('active-sub');
+            document.getElementById('btn-icd').innerText = 'ICD 10 ▼';
+
             if (tabId === 'tab-edu') {
                 showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
             } else if (tabId === 'tab-hosp') {
@@ -178,6 +199,20 @@
             } else {
                 document.getElementById('imageViewer').style.display = 'none';
                 document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
+            }
+        }
+
+        // 🚀 新增：折疊子選單的切換邏輯
+        function toggleSubMenu(menuId, buttonElement) {
+            const menu = document.getElementById(menuId);
+            if (menu.style.display === 'none' || menu.style.display === '') {
+                menu.style.display = 'flex';
+                buttonElement.classList.add('active-sub');
+                buttonElement.innerText = 'ICD 10 ▲';
+            } else {
+                menu.style.display = 'none';
+                buttonElement.classList.remove('active-sub');
+                buttonElement.innerText = 'ICD 10 ▼';
             }
         }
 
