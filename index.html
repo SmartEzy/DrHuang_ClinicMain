@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>診間數位儀表板</title>
+    
+    <!-- 🚀 網頁標籤與手機 App 圖示已更新為您的專屬 Logo -->
+    <link rel="icon" href="icon_main.jpg">
+    <link rel="apple-touch-icon" href="icon_main.jpg">
+
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f3f4f6; 
+            text-align: center; 
+        }
+        
+        /* === 頂部導覽列 === */
+        .top-nav { 
+            display: flex; 
+            justify-content: center; 
+            background-color: #ffffff; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            margin-bottom: 30px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .nav-item { 
+            padding: 16px 24px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: #6b7280; 
+            cursor: pointer; 
+            border-bottom: 3px solid transparent; 
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover { color: #374151; background-color: #f9fafb; }
+        .nav-item.active { color: #0284c7; border-bottom-color: #0284c7; }
+
+        /* === 分頁內容區塊 === */
+        .tab-content { display: none; padding: 0 20px 40px 20px; animation: fadeIn 0.3s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* === 頁面一：QR Code 掃描區 === */
+        .button-group { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
+        .btn-qr { 
+            padding: 16px 32px; font-size: 18px; font-weight: bold; color: #6b7280; 
+            background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 12px; 
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .btn-qr.active { background-color: #4b5563; color: #ffffff; border-color: #4b5563; }
+        .qr-image { 
+            width: 350px; height: 350px; background-color: #ffffff; padding: 20px; 
+            border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; 
+        }
+
+        /* === 頁面二：臨床控制台 === */
+        .section-title { 
+            font-size: 18px; color: #4b5563; margin: 30px auto 15px auto; 
+            font-weight: bold; text-align: left; max-width: 800px; 
+            border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;
+        }
+        .tools-group { 
+            display: flex; justify-content: flex-start; flex-wrap: wrap; 
+            gap: 16px; max-width: 800px; margin: 0 auto; 
+        }
+        
+        /* 🚀 純文字膠囊按鈕設計 */
+        .btn-text {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4b5563;
+            background-color: #ffffff;
+            border: 2px solid #d1d5db;
+            border-radius: 50px; /* 膠囊狀圓角 */
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+        .btn-text:hover { background-color: #f9fafb; border-color: #9ca3af; color: #111827; }
+        .btn-text:active { transform: scale(0.95); }
+
+    </style>
+</head>
+<body>
+
+    <!-- 頂部兩大分頁導覽列 -->
+    <div class="top-nav">
+        <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">📱 給病人掃描</div>
+        <div id="nav-clinic" class="nav-item" onclick="switchTab('tab-clinic', 'nav-clinic')">🩺 臨床控制台</div>
+    </div>
+
+    <!-- 頁面一：給病人掃描 (QR Code) -->
+    <div id="tab-qr" class="tab-content active">
+        <div class="button-group">
+            <button id="btnNear" class="btn-qr" onclick="showQR('near')">近距離閱讀測試</button>
+            <button id="btnAmsler" class="btn-qr" onclick="showQR('amsler')">黃斑部自我檢查</button>
+        </div>
+        <div id="qrArea">
+            <!-- 這裡會由下方的 JavaScript 自動載入圖片 -->
+            <img id="qrImage" class="qr-image" src="" alt="QR Code">
+        </div>
+    </div>
+
+    <!-- 頁面二：臨床控制台 (工具、衛教、門診表) -->
+    <div id="tab-clinic" class="tab-content">
+        
+        <!-- 區塊 1：臨床實用工具 -->
+        <div class="section-title">臨床實用工具</div>
+        <div class="tools-group">
+            <a href="https://smartezy.github.io/DrHuang_OphCalc/" target="_blank" class="btn-text">IOP</a>
+            <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text">CD Ratio</a>
+        </div>
+
+        <!-- 區塊 2：各衛教 Topic -->
+        <div class="section-title">衛教圖卡</div>
+        <div class="tools-group">
+            <a href="edu_eyeball.png" target="_blank" class="btn-text">Eyeball</a>
+            <a href="edu_refraction.png" target="_blank" class="btn-text">Refraction</a>
+            <a href="edu_corneaulcer.png" target="_blank" class="btn-text">Cornea ulcer</a>
+            <a href="edu_cataract.png" target="_blank" class="btn-text">Cataract</a>
+            <a href="edu_glaucoma.png" target="_blank" class="btn-text">Glaucoma</a>
+            <a href="edu_floater.png" target="_blank" class="btn-text">Floater</a>
+            <a href="edu_maculopathy.png" target="_blank" class="btn-text">Maculopathy</a>
+        </div>
+
+        <!-- 區塊 3：各院所門診表 -->
+        <div class="section-title">他院門診表</div>
+        <div class="tools-group">
+            <a href="hosp_kmuh.png" target="_blank" class="btn-text">高醫</a>
+            <a href="hosp_kmsh.png" target="_blank" class="btn-text">小港</a>
+            <a href="hosp_kmugh.png" target="_blank" class="btn-text">岡山</a>
+            <a href="hosp_kcgh.png" target="_blank" class="btn-text">長庚</a>
+            <a href="hosp_kvgh.png" target="_blank" class="btn-text">榮總</a>
+            <a href="hosp_ygh.png" target="_blank" class="btn-text">阮綜合</a>
+            <a href="hosp_lin.jpg" target="_blank" class="btn-text">德昌</a>
+        </div>
+
+    </div>
+
+    <script>
+        // 切換兩大頁面的邏輯
+        function switchTab(tabId, navId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById(navId).classList.add('active');
+        }
+
+        // 切換 QR Code 的邏輯
+        function showQR(type) {
+            const qrImage = document.getElementById('qrImage');
+            const btnNear = document.getElementById('btnNear');
+            const btnAmsler = document.getElementById('btnAmsler');
+            
+            btnNear.classList.remove('active');
+            btnAmsler.classList.remove('active');
+
+            if (type === 'near') {
+                qrImage.src = 'qr_near.png'; 
+                btnNear.classList.add('active');
+            } else if (type === 'amsler') {
+                qrImage.src = 'qr_amsler.png'; 
+                btnAmsler.classList.add('active');
+            }
+        }
+
+        // 網頁載入完成後，預設顯示近距離閱讀 QR Code
+        window.addEventListener('load', function() {
+            showQR('near');
+        });
+    </script>
+</body>
+</html>
