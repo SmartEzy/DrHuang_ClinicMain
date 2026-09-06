@@ -81,16 +81,16 @@
         </div>
     </div>
 
-    <!-- 頁籤 2：衛教圖卡 -->
+    <!-- 頁籤 2：衛教圖卡 (🚀 已經全部更新為 .jpg) -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <button class="btn-text img-btn" onclick="showImage('edu_eyeball.png', this)">Eyeball</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_refraction.png', this)">Refraction</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.png', this)">Cornea ulcer</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_cataract.png', this)">Cataract</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.png', this)">Glaucoma</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_floater.png', this)">Floater</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.png', this)">Maculopathy</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.jpg', this)">Glaucoma</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_floater.jpg', this)">Floater</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.jpg', this)">Maculopathy</button>
         </div>
     </div>
 
@@ -110,13 +110,11 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <!-- 外部連結與 PDF (點擊後另開新分頁) -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" target="_blank" class="btn-text">IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text">CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" target="_blank" class="btn-text">高醫眼科藥物圖鑑</a>
             <a href="tools_kmuhclerkmanual.pdf" target="_blank" class="btn-text">高醫眼科講義</a>
 
-            <!-- 圖片工具 (點擊後在同頁下方展開) -->
             <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
@@ -124,7 +122,7 @@
         </div>
     </div>
 
-    <!-- 共用圖片顯示區 (供衛教、門診表、圖片工具使用) -->
+    <!-- 共用圖片顯示區 -->
     <div id="imageViewer" class="image-viewer">
         <img id="displayImg" class="display-img" src="" alt="顯示圖片">
     </div>
@@ -137,7 +135,6 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
-            // 切換頁籤時自動隱藏下方的圖片區，保持版面乾淨
             document.getElementById('imageViewer').style.display = 'none';
             document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
         }
@@ -148,7 +145,6 @@
             viewer.style.display = 'block';
             img.src = src;
 
-            // 讓被點擊的圖片按鈕顯示深灰底色，方便辨識
             document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
             buttonElement.classList.add('active-btn');
         }
