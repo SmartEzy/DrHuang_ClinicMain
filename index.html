@@ -85,9 +85,9 @@
             width: auto; object-fit: contain; box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
         }
 
-        /* 🚀 === 共用子選單顯示區 (出現在跟圖片一樣的下方位置) === */
+        /* === 共用子選單顯示區 (出現在跟圖片一樣的下方位置) === */
         .sub-links-viewer { 
-            display: none; /* 預設隱藏 */
+            display: none; 
             justify-content: center; 
             flex-wrap: wrap; 
             gap: 15px; 
@@ -98,7 +98,7 @@
 </head>
 <body>
 
-    <!-- 導覽列 -->
+    <!-- 導覽列：更新後的順序 -->
     <div class="top-nav">
         <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">QR code</div>
         <div id="nav-hosp" class="nav-item" onclick="switchTab('tab-hosp', 'nav-hosp')">門診表</div>
@@ -148,14 +148,16 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text btn-link">IOP</a>
-            <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text btn-link">CD Ratio</a>
-            <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text btn-link">KMUH Drugs</a>
-            <a href="tools_kmuhclerkmanual.pdf" class="btn-text btn-link">Clerk Manual</a>
+            <!-- 🚀 外部連結：恢復 target="_blank" 以觸發 iPad 系統內建的完成按鈕視窗 -->
+            <a href="https://smartezy.github.io/DrHuang_OphCalc/" target="_blank" class="btn-text btn-link">IOP</a>
+            <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text btn-link">CD Ratio</a>
+            <a href="https://sites.google.com/view/kmuoph-drugs/" target="_blank" class="btn-text btn-link">KMUH Drugs</a>
+            <a href="tools_kmuhclerkmanual.pdf" target="_blank" class="btn-text btn-link">Clerk Manual</a>
             
-            <!-- 🚀 ICD 10 觸發按鈕 (改為呼叫 showSubLinks 函數) -->
+            <!-- ICD 10 觸發按鈕 -->
             <button id="btn-icd" class="btn-text btn-link tool-btn" onclick="showSubLinks(this)">ICD 10</button>
             
+            <!-- 內部圖片工具 (深灰色) -->
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
@@ -163,12 +165,12 @@
         </div>
     </div>
 
-    <!-- 🚀 新增：子連結顯示區 (顯示於圖片原先出現的位置) -->
+    <!-- 🚀 子連結顯示區 (顯示於圖片原先出現的位置，同樣加上 target="_blank") -->
     <div id="subLinksViewer" class="sub-links-viewer">
-        <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">衛福部</a>
-        <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">WHO</a>
-        <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">AAPC</a>
-        <a href="https://www.icd10data.com/" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">ICD10Data</a>
+        <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" target="_blank" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">衛福部</a>
+        <a href="https://icd.who.int/browse10/2019/en" target="_blank" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">WHO</a>
+        <a href="https://www.aapc.com/codes/icd-10-codes-range/" target="_blank" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">AAPC</a>
+        <a href="https://www.icd10data.com/" target="_blank" class="btn-text btn-link" style="font-size: 18px; padding: 12px 28px;">ICD10Data</a>
     </div>
 
     <!-- 共用圖片顯示區 -->
@@ -199,13 +201,12 @@
             }
         }
 
-        // 🚀 新增：顯示下方連結按鈕的功能
         function showSubLinks(buttonElement) {
             // 隱藏圖片區，顯示連結區
             document.getElementById('imageViewer').style.display = 'none';
             document.getElementById('subLinksViewer').style.display = 'flex';
             
-            // 更新按鈕選取狀態 (跟圖片按鈕連動互斥)
+            // 更新按鈕選取狀態
             document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
             buttonElement.classList.add('active-btn');
         }
@@ -219,7 +220,7 @@
             viewer.style.display = 'block';
             img.src = src;
 
-            // 更新按鈕選取狀態 (跟子連結按鈕連動互斥)
+            // 更新按鈕選取狀態
             document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
             buttonElement.classList.add('active-btn');
         }
