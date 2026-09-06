@@ -1,4 +1,3 @@
-# DrHuang_ClinicMain
 門診表：
 * 高醫⁠⁠ / hosp_kmuh.png
 * 小港 / hosp_kmsh.png
