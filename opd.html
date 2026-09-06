@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>門診表</title>
+    
+    <link rel="icon" href="icon_main.jpg">
+    <link rel="apple-touch-icon" href="icon_main.jpg">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px 15px; 
+            background-color: #f3f4f6; 
+            text-align: center; 
+            overflow-y: hidden; 
+        }
+
+        .tools-group { 
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; 
+        }
+
+        .btn-text {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
+            background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
+            cursor: pointer; transition: all 0.2s ease;
+            white-space: nowrap; 
+        }
+        .btn-text.active-btn { 
+            background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        .btn-text:active { transform: scale(0.95); }
+
+        .image-viewer { text-align: center; }
+        .display-img { 
+            max-width: 100%; max-height: calc(100vh - 90px); /* 扣掉按鈕的高度 */
+            width: auto; object-fit: contain; box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tools-group">
+        <button id="btn-default" class="btn-text active-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
+        <button class="btn-text" onclick="showImage('hosp_kmsh.png', this)">小港</button>
+        <button class="btn-text" onclick="showImage('hosp_kmugh.png', this)">岡山</button>
+        <button class="btn-text" onclick="showImage('hosp_kcgh.png', this)">長庚</button>
+        <button class="btn-text" onclick="showImage('hosp_kvgh.png', this)">榮總</button>
+        <button class="btn-text" onclick="showImage('hosp_ygh.png', this)">阮綜合</button>
+        <button class="btn-text" onclick="showImage('hosp_lin.jpg', this)">德昌</button>
+    </div>
+
+    <div class="image-viewer">
+        <img id="displayImg" class="display-img" src="hosp_kmuh.png" alt="門診表">
+    </div>
+
+    <script>
+        function showImage(src, buttonElement) {
+            document.getElementById('displayImg').src = src;
+            document.querySelectorAll('.btn-text').forEach(btn => btn.classList.remove('active-btn'));
+            buttonElement.classList.add('active-btn');
+        }
+    </script>
+</body>
+</html>
