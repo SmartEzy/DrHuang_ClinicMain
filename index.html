@@ -67,6 +67,34 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
+        /* === 🏠 首頁 Emoji 專屬圓形底 === */
+        .home-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px; /* 固定寬高畫出完美圓形 */
+            height: 26px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        /* 當按鈕被選取時，顯示白色圓形底 */
+        .active-btn .home-emoji {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* 外部連結專屬樣式 */
+        .btn-link { 
+            color: #0284c7; 
+            background-color: #f0f9ff; 
+            border-color: #7dd3fc; 
+        }
+        .btn-link:active, .btn-link.active-btn { 
+            background-color: #0284c7; 
+            color: #ffffff;
+            border-color: #0284c7; 
+        }
+
         /* 子選單專屬按鈕形狀 (微圓角方塊) */
         .sub-btn {
             border-radius: 12px !important; 
@@ -138,8 +166,10 @@
     <!-- 頁籤 3：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 修改：將 Eyeball 替換為 🏠 Emoji -->
-            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">🏠</button>
+            <!-- 🚀 加上 <span> 包裹 Emoji，用來套用白底樣式 -->
+            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">
+                <span class="home-emoji">🏠</span>
+            </button>
             <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
             <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
             <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
@@ -152,14 +182,12 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 修改：移除原本的 btn-link (取消藍色)，並加上統一的 🔗 Emoji -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text">🔗 IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text">🔗 CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text">🔗 KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text">🔗 Clerk Manual</a>
             <button id="btn-icd" class="btn-text tool-btn" onclick="showSubLinks(this)">🔗 ICD 10</button>
             
-            <!-- 內部圖片工具保持原狀 -->
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
@@ -167,7 +195,7 @@
         </div>
     </div>
 
-    <!-- 子連結顯示區 (取消藍色) -->
+    <!-- 子連結顯示區 -->
     <div id="subLinksViewer" class="sub-links-viewer">
         <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text sub-btn">衛福部</a>
         <a href="https://icd.who.int/browse10/2019/en" class="btn-text sub-btn">WHO</a>
@@ -188,14 +216,11 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
-            // 切換分頁時，隱藏下方所有的顯示區 (圖片與子連結)
             document.getElementById('imageViewer').style.display = 'none';
             document.getElementById('subLinksViewer').style.display = 'none';
             
-            // 清除按鈕選取狀態
             document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
 
-            // 預設行為
             if (tabId === 'tab-edu') {
                 showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
             } else if (tabId === 'tab-hosp') {
