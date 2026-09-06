@@ -8,7 +8,6 @@
     <link rel="icon" href="icon_main.jpg">
     <link rel="apple-touch-icon" href="icon_main.jpg">
     
-    <!-- 加入這行可以讓 iPad 加入主畫面時有更好的全螢幕體驗 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -64,7 +63,10 @@
             width: 300px; height: 300px; background-color: #ffffff; padding: 15px; 
             border-radius: 16px; 
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; 
+            cursor: pointer; /* 🚀 加入游標指標，提示這是可以點擊的 */
         }
+        /* 去除超連結點擊時可能產生的底線或藍框 */
+        #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
 
         /* === 同頁圖片顯示區 === */
         .image-viewer { 
@@ -96,7 +98,10 @@
             <button id="btnAmsler" class="btn-text" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
         </div>
         <div id="qrArea">
-            <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
+            <!-- 🚀 用 <a> 標籤把圖片包起來，並設定預設連結為近距離測試 -->
+            <a id="qrLink" href="https://smartezy.github.io/DrHuang_EyeTest2/">
+                <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
+            </a>
         </div>
     </div>
 
@@ -129,7 +134,6 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 這裡已經移除了 target="_blank"，會在同一個畫面開啟 -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text">IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text">CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text">KMUH Drugs</a>
@@ -177,6 +181,7 @@
 
         function showQR(type, buttonElement) {
             const qrImage = document.getElementById('qrImage');
+            const qrLink = document.getElementById('qrLink'); // 🚀 抓取超連結元素
             
             document.getElementById('btnNear').classList.remove('active-btn');
             document.getElementById('btnAmsler').classList.remove('active-btn');
@@ -184,8 +189,10 @@
 
             if (type === 'near') {
                 qrImage.src = 'qr_near.png'; 
+                qrLink.href = 'https://smartezy.github.io/DrHuang_EyeTest2/'; // 🚀 切換為近距離的網址
             } else if (type === 'amsler') {
                 qrImage.src = 'qr_amsler.png'; 
+                qrLink.href = 'https://smartezy.github.io/DrHuang_EyeTest/'; // 🚀 切換為黃斑部的網址
             }
         }
     </script>
