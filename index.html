@@ -21,29 +21,25 @@
             overflow-y: hidden; 
         }
         
-        /* === 第一層導覽列 (🚀 確保維持一列不換行) === */
         .top-nav { 
-            display: flex; justify-content: center; align-items: center; gap: 10px; /* 縮小間距以適應手機 */
+            display: flex; justify-content: center; align-items: center; gap: 10px; 
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
             padding: 10px 10px 0 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
-            flex-wrap: nowrap; /* 🚀 強制不換行 */
-            overflow-x: auto; /* 若螢幕極窄，允許導覽列滑動 */
+            flex-wrap: nowrap; 
+            overflow-x: auto; 
             -webkit-overflow-scrolling: touch;
         }
-        /* 隱藏導覽列的捲軸 */
         .top-nav::-webkit-scrollbar { display: none; }
 
         .nav-item { 
-            padding: 10px 16px; /* 稍微縮小左右 padding */
-            font-size: 18px; font-weight: bold; color: #9ca3af; 
+            padding: 10px 16px; font-size: 18px; font-weight: bold; color: #9ca3af; 
             cursor: pointer; border-bottom: 4px solid transparent; transition: all 0.2s ease;
-            white-space: nowrap; /* 🚀 文字絕對不折行 */
-            flex-shrink: 0; /* 🚀 確保按鈕形狀不被擠壓 */
+            white-space: nowrap; 
+            flex-shrink: 0; 
         }
         .nav-item:hover { color: #4b5563; }
         .nav-item.active { color: #374151; border-bottom-color: #374151; }
 
-        /* === 分頁內容區 === */
         .tab-content { 
             display: none; padding: 0 15px; animation: fadeIn 0.2s ease; 
             max-width: 98%; margin: 0 auto; 
@@ -51,7 +47,6 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === 膠囊按鈕區 (維持允許換行排排站) === */
         .tools-group { 
             display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
         }
@@ -61,7 +56,7 @@
             padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
             background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
             text-decoration: none; cursor: pointer; transition: all 0.2s ease;
-            white-space: nowrap; /* 確保膠囊內的單字絕對不會被切成兩行 */
+            white-space: nowrap; 
         }
         .btn-text.active-btn { 
             background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
@@ -69,46 +64,29 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* Tools 區隔：外部連結與講義的專屬樣式 (淡藍色系) */
-        .btn-link {
-            color: #0284c7; 
-            background-color: #f0f9ff; 
-            border-color: #7dd3fc; 
-        }
-        .btn-link:active {
-            background-color: #e0f2fe;
-            border-color: #0284c7;
-        }
+        .btn-link { color: #0284c7; background-color: #f0f9ff; border-color: #7dd3fc; }
+        .btn-link:active { background-color: #e0f2fe; border-color: #0284c7; }
 
-        /* === QR Code 圖片區 === */
         .qr-image { 
             width: 300px; height: 300px; background-color: #ffffff; padding: 15px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; 
-            cursor: pointer; 
+            border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; cursor: pointer; 
         }
         #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
 
-        /* === 同頁圖片顯示區 === */
-        .image-viewer { 
-            display: none; text-align: center; 
-        }
+        .image-viewer { display: none; text-align: center; }
         .display-img { 
-            max-width: 100%; 
-            max-height: calc(100vh - 160px); 
-            width: auto;
-            object-fit: contain; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 100%; max-height: calc(100vh - 160px); 
+            width: auto; object-fit: contain; box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
         }
     </style>
 </head>
 <body>
 
-    <!-- 第一層導覽列 -->
+    <!-- 導覽列：更新順序 -->
     <div class="top-nav">
         <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">QR code</div>
-        <div id="nav-edu" class="nav-item" onclick="switchTab('tab-edu', 'nav-edu')">衛教</div>
         <div id="nav-hosp" class="nav-item" onclick="switchTab('tab-hosp', 'nav-hosp')">門診表</div>
+        <div id="nav-edu" class="nav-item" onclick="switchTab('tab-edu', 'nav-edu')">衛教</div>
         <div id="nav-tool" class="nav-item" onclick="switchTab('tab-tool', 'nav-tool')">Tools</div>
     </div>
 
@@ -125,20 +103,7 @@
         </div>
     </div>
 
-    <!-- 頁籤 2：衛教圖卡 -->
-    <div id="tab-edu" class="tab-content">
-        <div class="tools-group">
-            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
-            <button id="btn-default-refraction" class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.jpg', this)">Glaucoma</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_floater.jpg', this)">Floater</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.jpg', this)">Maculopathy</button>
-        </div>
-    </div>
-
-    <!-- 頁籤 3：門診表 -->
+    <!-- 頁籤 2：門診表 (順序提前) -->
     <div id="tab-hosp" class="tab-content">
         <div class="tools-group">
             <button id="btn-default-hosp" class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
@@ -148,6 +113,19 @@
             <button class="btn-text img-btn" onclick="showImage('hosp_kvgh.png', this)">榮總</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_ygh.png', this)">阮綜合</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_lin.jpg', this)">德昌</button>
+        </div>
+    </div>
+
+    <!-- 頁籤 3：衛教圖卡 (順序延後) -->
+    <div id="tab-edu" class="tab-content">
+        <div class="tools-group">
+            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.jpg', this)">Glaucoma</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_floater.jpg', this)">Floater</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.jpg', this)">Maculopathy</button>
         </div>
     </div>
 
