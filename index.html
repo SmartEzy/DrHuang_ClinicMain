@@ -21,17 +21,24 @@
             overflow-y: hidden; 
         }
         
-        /* === 第一層導覽列 === */
+        /* === 第一層導覽列 (🚀 確保維持一列不換行) === */
         .top-nav { 
-            display: flex; justify-content: center; align-items: center; gap: 15px;
+            display: flex; justify-content: center; align-items: center; gap: 10px; /* 縮小間距以適應手機 */
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            padding-top: 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
-            flex-wrap: wrap; /* 允許導覽列在手機上自然換行 */
+            padding: 10px 10px 0 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
+            flex-wrap: nowrap; /* 🚀 強制不換行 */
+            overflow-x: auto; /* 若螢幕極窄，允許導覽列滑動 */
+            -webkit-overflow-scrolling: touch;
         }
+        /* 隱藏導覽列的捲軸 */
+        .top-nav::-webkit-scrollbar { display: none; }
+
         .nav-item { 
-            padding: 10px 24px; font-size: 18px; font-weight: bold; color: #9ca3af; 
+            padding: 10px 16px; /* 稍微縮小左右 padding */
+            font-size: 18px; font-weight: bold; color: #9ca3af; 
             cursor: pointer; border-bottom: 4px solid transparent; transition: all 0.2s ease;
-            white-space: nowrap; /* 確保主導覽列文字不換行 */
+            white-space: nowrap; /* 🚀 文字絕對不折行 */
+            flex-shrink: 0; /* 🚀 確保按鈕形狀不被擠壓 */
         }
         .nav-item:hover { color: #4b5563; }
         .nav-item.active { color: #374151; border-bottom-color: #374151; }
@@ -44,7 +51,7 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === 膠囊按鈕區 === */
+        /* === 膠囊按鈕區 (維持允許換行排排站) === */
         .tools-group { 
             display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
         }
@@ -54,7 +61,7 @@
             padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
             background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
             text-decoration: none; cursor: pointer; transition: all 0.2s ease;
-            white-space: nowrap; /* 🚀 確保膠囊內的單字絕對不會被切成兩行 */
+            white-space: nowrap; /* 確保膠囊內的單字絕對不會被切成兩行 */
         }
         .btn-text.active-btn { 
             background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
@@ -62,7 +69,7 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* 🚀 Tools 區隔：外部連結與講義的專屬樣式 (淡藍色系) */
+        /* Tools 區隔：外部連結與講義的專屬樣式 (淡藍色系) */
         .btn-link {
             color: #0284c7; 
             background-color: #f0f9ff; 
@@ -122,7 +129,7 @@
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
             <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
-            <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
+            <button id="btn-default-refraction" class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
             <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
             <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
             <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.jpg', this)">Glaucoma</button>
