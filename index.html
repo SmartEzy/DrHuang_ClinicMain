@@ -67,22 +67,9 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* 外部連結專屬樣式 (淡藍色系) */
-        .btn-link { 
-            color: #0284c7; 
-            background-color: #f0f9ff; 
-            border-color: #7dd3fc; 
-        }
-        /* 🚀 修正對比度：被選取時變成深藍底、白字 */
-        .btn-link:active, .btn-link.active-btn { 
-            background-color: #0284c7; 
-            color: #ffffff;
-            border-color: #0284c7; 
-        }
-
-        /* 🚀 新增：子選單專屬按鈕形狀 (微圓角方塊) */
+        /* 子選單專屬按鈕形狀 (微圓角方塊) */
         .sub-btn {
-            border-radius: 12px !important; /* 覆蓋原本膠囊的 50px */
+            border-radius: 12px !important; 
             padding: 12px 28px;
             font-size: 18px;
         }
@@ -129,7 +116,6 @@
             <button id="btnAmsler" class="btn-text" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
         </div>
         <div id="qrArea">
-            <!-- 🚀 這裡已經是同頁面跳轉 (無 target="_blank") -->
             <a id="qrLink" href="https://smartezy.github.io/DrHuang_EyeTest2/">
                 <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
             </a>
@@ -152,7 +138,8 @@
     <!-- 頁籤 3：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
+            <!-- 🚀 修改：將 Eyeball 替換為 🏠 Emoji -->
+            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">🏠</button>
             <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
             <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
             <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
@@ -165,16 +152,14 @@
     <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 外部連結：移除 target="_blank" -->
-            <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text btn-link">IOP</a>
-            <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text btn-link">CD Ratio</a>
-            <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text btn-link">KMUH Drugs</a>
-            <a href="tools_kmuhclerkmanual.pdf" class="btn-text btn-link">Clerk Manual</a>
+            <!-- 🚀 修改：移除原本的 btn-link (取消藍色)，並加上統一的 🔗 Emoji -->
+            <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text">🔗 IOP</a>
+            <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text">🔗 CD Ratio</a>
+            <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text">🔗 KMUH Drugs</a>
+            <a href="tools_kmuhclerkmanual.pdf" class="btn-text">🔗 Clerk Manual</a>
+            <button id="btn-icd" class="btn-text tool-btn" onclick="showSubLinks(this)">🔗 ICD 10</button>
             
-            <!-- ICD 10 觸發按鈕 -->
-            <button id="btn-icd" class="btn-text btn-link tool-btn" onclick="showSubLinks(this)">ICD 10</button>
-            
-            <!-- 內部圖片工具 -->
+            <!-- 內部圖片工具保持原狀 -->
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
@@ -182,13 +167,12 @@
         </div>
     </div>
 
-    <!-- 子連結顯示區 (顯示於圖片原先出現的位置) -->
+    <!-- 子連結顯示區 (取消藍色) -->
     <div id="subLinksViewer" class="sub-links-viewer">
-        <!-- 🚀 加上了 .sub-btn 套用方塊造型，並移除 target="_blank" -->
-        <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text btn-link sub-btn">衛福部</a>
-        <a href="https://icd.who.int/browse10/2019/en" class="btn-text btn-link sub-btn">WHO</a>
-        <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text btn-link sub-btn">AAPC</a>
-        <a href="https://www.icd10data.com/" class="btn-text btn-link sub-btn">ICD10Data</a>
+        <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text sub-btn">衛福部</a>
+        <a href="https://icd.who.int/browse10/2019/en" class="btn-text sub-btn">WHO</a>
+        <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text sub-btn">AAPC</a>
+        <a href="https://www.icd10data.com/" class="btn-text sub-btn">ICD10Data</a>
     </div>
 
     <!-- 共用圖片顯示區 -->
