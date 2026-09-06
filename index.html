@@ -81,10 +81,11 @@
         </div>
     </div>
 
-    <!-- 頁籤 2：衛教圖卡 (🚀 已經全部更新為 .jpg) -->
+    <!-- 頁籤 2：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <button class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
+            <!-- 🚀 加上 id="btn-default-edu" 以供程式定位 -->
+            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">Eyeball</button>
             <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
             <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
             <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
@@ -97,7 +98,8 @@
     <!-- 頁籤 3：門診表 -->
     <div id="tab-hosp" class="tab-content">
         <div class="tools-group">
-            <button class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
+            <!-- 🚀 加上 id="btn-default-hosp" 以供程式定位 -->
+            <button id="btn-default-hosp" class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_kmsh.png', this)">小港</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_kmugh.png', this)">岡山</button>
             <button class="btn-text img-btn" onclick="showImage('hosp_kcgh.png', this)">長庚</button>
@@ -135,8 +137,16 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
-            document.getElementById('imageViewer').style.display = 'none';
-            document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
+            // 🚀 判斷點擊的是哪一個頁籤，並執行對應的預設動作
+            if (tabId === 'tab-edu') {
+                showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
+            } else if (tabId === 'tab-hosp') {
+                showImage('hosp_kmuh.png', document.getElementById('btn-default-hosp'));
+            } else {
+                // 如果是 QR Code 或 Tools，隱藏共用圖片區並取消按鈕選取狀態
+                document.getElementById('imageViewer').style.display = 'none';
+                document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
+            }
         }
 
         function showImage(src, buttonElement) {
