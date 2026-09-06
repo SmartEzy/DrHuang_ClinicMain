@@ -17,28 +17,25 @@
             text-align: center; 
         }
         
-        /* === 扁平化主導覽列 === */
+        /* === 第一層導覽列 === */
         .top-nav { 
             display: flex; justify-content: center; align-items: center; gap: 15px;
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            padding: 15px 0; margin-bottom: 30px; position: sticky; top: 0; z-index: 100; 
+            padding-top: 15px; margin-bottom: 30px; position: sticky; top: 0; z-index: 100; 
         }
         .nav-item { 
-            padding: 12px 24px; font-size: 18px; font-weight: bold; color: #6b7280; 
-            cursor: pointer; border-radius: 12px; transition: all 0.2s ease;
+            padding: 12px 24px; font-size: 18px; font-weight: bold; color: #9ca3af; 
+            cursor: pointer; border-bottom: 4px solid transparent; transition: all 0.2s ease;
         }
-        /* 🚀 頁籤點選後的狀態：深灰底、白字、字體放大、陰影 */
-        .nav-item.active { 
-            background-color: #4b5563; color: #ffffff; font-size: 22px; 
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2); 
-        }
+        .nav-item:hover { color: #4b5563; }
+        .nav-item.active { color: #374151; border-bottom-color: #374151; }
 
         /* === 分頁內容區 === */
         .tab-content { display: none; padding: 0 20px 40px 20px; animation: fadeIn 0.3s ease; max-width: 900px; margin: 0 auto; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === 膠囊按鈕共用樣式 (QR Code、衛教、門診表、工具) === */
+        /* === 膠囊按鈕共用樣式 === */
         .tools-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; }
         .btn-text {
             display: inline-flex; align-items: center; justify-content: center;
@@ -46,11 +43,9 @@
             background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
             text-decoration: none; cursor: pointer; transition: all 0.2s ease;
         }
-        
-        /* 🚀 膠囊按鈕點選後的狀態：深灰底、白字、字體放大、陰影 */
         .btn-text.active-btn { 
             background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
-            font-size: 22px; box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
         .btn-text:active { transform: scale(0.95); }
 
@@ -67,12 +62,12 @@
 </head>
 <body>
 
-    <!-- 第一層扁平化導覽列 -->
+    <!-- 第一層導覽列 -->
     <div class="top-nav">
         <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">QR code</div>
         <div id="nav-edu" class="nav-item" onclick="switchTab('tab-edu', 'nav-edu')">衛教</div>
         <div id="nav-hosp" class="nav-item" onclick="switchTab('tab-hosp', 'nav-hosp')">門診表</div>
-        <div id="nav-tool" class="nav-item" onclick="switchTab('tab-tool', 'nav-tool')">工具</div>
+        <div id="nav-tool" class="nav-item" onclick="switchTab('tab-tool', 'nav-tool')">Tools</div>
     </div>
 
     <!-- 頁籤 1：QR Code -->
@@ -112,54 +107,55 @@
         </div>
     </div>
 
-    <!-- 頁籤 4：臨床工具 -->
+    <!-- 頁籤 4：Tools -->
     <div id="tab-tool" class="tab-content">
         <div class="tools-group">
+            <!-- 外部連結與 PDF (點擊後另開新分頁) -->
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" target="_blank" class="btn-text">IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text">CD Ratio</a>
-            <!-- 🚀 新增的高醫眼科藥物圖鑑工具 -->
             <a href="https://sites.google.com/view/kmuoph-drugs/" target="_blank" class="btn-text">高醫眼科藥物圖鑑</a>
+            <a href="tools_kmuhclerkmanual.pdf" target="_blank" class="btn-text">高醫眼科講義</a>
+
+            <!-- 圖片工具 (點擊後在同頁下方展開) -->
+            <button class="btn-text img-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
+            <button class="btn-text img-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
+            <button class="btn-text img-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
+            <button class="btn-text img-btn" onclick="showImage('tools_anticoagulant.png', this)">Anticoagulant</button>
         </div>
     </div>
 
-    <!-- 共用圖片顯示區 (供衛教與門診表使用) -->
+    <!-- 共用圖片顯示區 (供衛教、門診表、圖片工具使用) -->
     <div id="imageViewer" class="image-viewer">
         <img id="displayImg" class="display-img" src="" alt="顯示圖片">
     </div>
 
     <script>
-        // 1. 切換四大主頁籤的邏輯
         function switchTab(tabId, navId) {
-            // 隱藏所有內容與重置上方頁籤顏色
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             
-            // 顯示選擇的內容並高亮頁籤
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
 
-            // 隱藏共用圖片區並重置衛教/門診表的膠囊按鈕顏色，保持畫面乾淨
+            // 切換頁籤時自動隱藏下方的圖片區，保持版面乾淨
             document.getElementById('imageViewer').style.display = 'none';
             document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
         }
 
-        // 2. 切換衛教/門診表圖片與按鈕高亮的邏輯
         function showImage(src, buttonElement) {
             const viewer = document.getElementById('imageViewer');
             const img = document.getElementById('displayImg');
             viewer.style.display = 'block';
             img.src = src;
 
-            // 移除其他按鈕的高亮狀態，只讓被點選的按鈕變深灰放大
+            // 讓被點擊的圖片按鈕顯示深灰底色，方便辨識
             document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
             buttonElement.classList.add('active-btn');
         }
 
-        // 3. 切換 QR Code 與按鈕高亮的邏輯
         function showQR(type, buttonElement) {
             const qrImage = document.getElementById('qrImage');
             
-            // 移除 QR Code 區塊的按鈕高亮狀態
             document.getElementById('btnNear').classList.remove('active-btn');
             document.getElementById('btnAmsler').classList.remove('active-btn');
             buttonElement.classList.add('active-btn');
