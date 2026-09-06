@@ -1,10 +1,10 @@
-門診表：
-* 高醫⁠⁠ / hosp_kmuh.png
-* 小港 / hosp_kmsh.png
-* 岡山 / hosp_kmugh.png
-* 長庚 / hosp_kcgh.png
-* 榮總 / hosp_kvgh.png
-* 阮綜合 / hosp_ygh.png
+門診表：改大小及jpg檔
+* 高醫⁠⁠ / hosp_kmuh.jpg
+* 小港 / hosp_kmsh.jpg
+* 岡山 / hosp_kmugh.jpg
+* 長庚 / hosp_kcgh.jpg
+* 榮總 / hosp_kvgh.jpg
+* 阮綜合 / hosp_ygh.jpg
 * 德昌 / hosp_lin.jpg
 
 工具：
