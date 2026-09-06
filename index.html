@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>診間數位儀表板</title>
+    <title>Clinic Tools</title>
     
     <link rel="icon" href="icon_main.jpg">
     <link rel="apple-touch-icon" href="icon_main.jpg">
@@ -17,204 +17,159 @@
             text-align: center; 
         }
         
-        /* === 主導覽列 === */
+        /* === 扁平化主導覽列 === */
         .top-nav { 
-            display: flex; justify-content: center; background-color: #ffffff; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; 
-            position: sticky; top: 0; z-index: 100; 
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            padding: 15px 0; margin-bottom: 30px; position: sticky; top: 0; z-index: 100; 
         }
         .nav-item { 
-            padding: 16px 32px; font-size: 18px; font-weight: bold; color: #6b7280; 
-            cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s ease;
+            padding: 12px 24px; font-size: 18px; font-weight: bold; color: #6b7280; 
+            cursor: pointer; border-radius: 12px; transition: all 0.2s ease;
         }
-        .nav-item:hover { color: #374151; background-color: #f9fafb; }
-        .nav-item.active { color: #0284c7; border-bottom-color: #0284c7; }
+        /* 🚀 頁籤點選後的狀態：深灰底、白字、字體放大、陰影 */
+        .nav-item.active { 
+            background-color: #4b5563; color: #ffffff; font-size: 22px; 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2); 
+        }
 
-        /* === 主分頁內容 === */
-        .tab-content { display: none; padding: 0 20px 40px 20px; animation: fadeIn 0.3s ease; }
+        /* === 分頁內容區 === */
+        .tab-content { display: none; padding: 0 20px 40px 20px; animation: fadeIn 0.3s ease; max-width: 900px; margin: 0 auto; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === QR Code 區 === */
-        .button-group { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-        .btn-qr { 
-            padding: 16px 32px; font-size: 18px; font-weight: bold; color: #6b7280; 
-            background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 12px; cursor: pointer; 
+        /* === 膠囊按鈕共用樣式 (QR Code、衛教、門診表、工具) === */
+        .tools-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; }
+        .btn-text {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 12px 28px; font-size: 18px; font-weight: bold; color: #4b5563; 
+            background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
+            text-decoration: none; cursor: pointer; transition: all 0.2s ease;
         }
-        .btn-qr.active { background-color: #4b5563; color: #ffffff; border-color: #4b5563; }
+        
+        /* 🚀 膠囊按鈕點選後的狀態：深灰底、白字、字體放大、陰影 */
+        .btn-text.active-btn { 
+            background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
+            font-size: 22px; box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .btn-text:active { transform: scale(0.95); }
+
+        /* === QR Code 圖片區 === */
         .qr-image { 
             width: 350px; height: 350px; background-color: #ffffff; padding: 20px; 
             border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; 
         }
 
-        /* === 次分頁選單 (工具 / 衛教 / 門診表) === */
-        .sub-nav {
-            display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;
-        }
-        .sub-item {
-            padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563;
-            background-color: #e5e7eb; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
-        }
-        .sub-item.active { background-color: #0284c7; color: #ffffff; }
-
-        /* === 次分頁內容區 === */
-        .sub-section { display: none; max-width: 800px; margin: 0 auto; }
-        .sub-section.active { display: block; animation: fadeIn 0.3s ease; }
-        
-        .tools-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
-
-        /* === 膠囊按鈕 === */
-        .btn-text {
-            display: inline-block; padding: 12px 24px; font-size: 16px; font-weight: bold;
-            color: #4b5563; background-color: #ffffff; border: 2px solid #d1d5db;
-            border-radius: 50px; text-decoration: none; cursor: pointer;
-        }
-        .btn-text:hover { background-color: #f9fafb; border-color: #9ca3af; color: #111827; }
-        .btn-text:active { transform: scale(0.95); }
-        .btn-text.active-btn { background-color: #e0f2fe; border-color: #0284c7; color: #0284c7; } /* 點選後的狀態 */
-
         /* === 同頁圖片顯示區 === */
-        .image-viewer {
-            display: none; /* 預設隱藏，點擊後顯示 */
-            margin-top: 30px;
-            text-align: center;
-        }
-        .display-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
+        .image-viewer { display: none; text-align: center; }
+        .display-img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
 
-    <!-- 主導覽列 -->
+    <!-- 第一層扁平化導覽列 -->
     <div class="top-nav">
-        <div id="nav-qr" class="nav-item active" onclick="switchMainTab('tab-qr', 'nav-qr')">QR code</div>
-        <div id="nav-clinic" class="nav-item" onclick="switchMainTab('tab-clinic', 'nav-clinic')">工具</div>
+        <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">QR code</div>
+        <div id="nav-edu" class="nav-item" onclick="switchTab('tab-edu', 'nav-edu')">衛教</div>
+        <div id="nav-hosp" class="nav-item" onclick="switchTab('tab-hosp', 'nav-hosp')">門診表</div>
+        <div id="nav-tool" class="nav-item" onclick="switchTab('tab-tool', 'nav-tool')">工具</div>
     </div>
 
-    <!-- 主分頁 1：QR Code -->
+    <!-- 頁籤 1：QR Code -->
     <div id="tab-qr" class="tab-content active">
-        <div class="button-group">
-            <button id="btnNear" class="btn-qr" onclick="showQR('near')">近距離閱讀測試</button>
-            <button id="btnAmsler" class="btn-qr" onclick="showQR('amsler')">黃斑部自我檢查</button>
+        <div class="tools-group">
+            <button id="btnNear" class="btn-text active-btn" onclick="showQR('near', this)">近距離閱讀測試</button>
+            <button id="btnAmsler" class="btn-text" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
         </div>
         <div id="qrArea">
-            <img id="qrImage" class="qr-image" src="" alt="QR Code">
+            <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
         </div>
     </div>
 
-    <!-- 主分頁 2：工具 -->
-    <div id="tab-clinic" class="tab-content">
-        
-        <!-- 次分頁切換按鈕 -->
-        <div class="sub-nav">
-            <div id="sub-tool" class="sub-item active" onclick="switchSubTab('sec-tool', 'sub-tool')">臨床實用工具</div>
-            <div id="sub-edu" class="sub-item" onclick="switchSubTab('sec-edu', 'sub-edu')">衛教圖卡</div>
-            <div id="sub-hosp" class="sub-item" onclick="switchSubTab('sec-hosp', 'sub-hosp')">他院門診表</div>
+    <!-- 頁籤 2：衛教圖卡 -->
+    <div id="tab-edu" class="tab-content">
+        <div class="tools-group">
+            <button class="btn-text img-btn" onclick="showImage('edu_eyeball.png', this)">Eyeball</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_refraction.png', this)">Refraction</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.png', this)">Cornea ulcer</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_cataract.png', this)">Cataract</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.png', this)">Glaucoma</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_floater.png', this)">Floater</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.png', this)">Maculopathy</button>
         </div>
+    </div>
 
-        <!-- 次分頁 A：臨床實用工具 (維持開新分頁) -->
-        <div id="sec-tool" class="sub-section active">
-            <div class="tools-group">
-                <a href="https://smartezy.github.io/DrHuang_OphCalc/" target="_blank" class="btn-text">IOP</a>
-                <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text">CD Ratio</a>
-            </div>
+    <!-- 頁籤 3：門診表 -->
+    <div id="tab-hosp" class="tab-content">
+        <div class="tools-group">
+            <button class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kmsh.png', this)">小港</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kmugh.png', this)">岡山</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kcgh.png', this)">長庚</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kvgh.png', this)">榮總</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_ygh.png', this)">阮綜合</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_lin.jpg', this)">德昌</button>
         </div>
+    </div>
 
-        <!-- 次分頁 B：衛教圖卡 (點擊後在同頁顯示) -->
-        <div id="sec-edu" class="sub-section">
-            <div class="tools-group">
-                <button class="btn-text img-btn" onclick="showImage('edu_eyeball.png', this)">Eyeball</button>
-                <button class="btn-text img-btn" onclick="showImage('edu_refraction.png', this)">Refraction</button>
-                <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.png', this)">Cornea ulcer</button>
-                <button class="btn-text img-btn" onclick="showImage('edu_cataract.png', this)">Cataract</button>
-                <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.png', this)">Glaucoma</button>
-                <button class="btn-text img-btn" onclick="showImage('edu_floater.png', this)">Floater</button>
-                <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.png', this)">Maculopathy</button>
-            </div>
+    <!-- 頁籤 4：臨床工具 -->
+    <div id="tab-tool" class="tab-content">
+        <div class="tools-group">
+            <a href="https://smartezy.github.io/DrHuang_OphCalc/" target="_blank" class="btn-text">IOP</a>
+            <a href="https://smartezy.github.io/DrHuang_CDRatio/" target="_blank" class="btn-text">CD Ratio</a>
+            <!-- 🚀 新增的高醫眼科藥物圖鑑工具 -->
+            <a href="https://sites.google.com/view/kmuoph-drugs/" target="_blank" class="btn-text">高醫眼科藥物圖鑑</a>
         </div>
+    </div>
 
-        <!-- 次分頁 C：他院門診表 (點擊後在同頁顯示) -->
-        <div id="sec-hosp" class="sub-section">
-            <div class="tools-group">
-                <button class="btn-text img-btn" onclick="showImage('hosp_kmuh.png', this)">高醫</button>
-                <button class="btn-text img-btn" onclick="showImage('hosp_kmsh.png', this)">小港</button>
-                <button class="btn-text img-btn" onclick="showImage('hosp_kmugh.png', this)">岡山</button>
-                <button class="btn-text img-btn" onclick="showImage('hosp_kcgh.png', this)">長庚</button>
-                <button class="btn-text img-btn" onclick="showImage('hosp_kvgh.png', this)">榮總</button>
-                <button class="btn-text img-btn" onclick="showImage('hosp_ygh.png', this)">阮綜合</button>
-                <button class="btn-text img-btn" onclick="showImage('hosp_lin.jpg', this)">德昌</button>
-            </div>
-        </div>
-
-        <!-- 共用圖片顯示區：點擊上述按鈕後，圖片會顯示在這裡 -->
-        <div id="imageViewer" class="image-viewer">
-            <img id="displayImg" class="display-img" src="" alt="顯示圖片">
-        </div>
-
+    <!-- 共用圖片顯示區 (供衛教與門診表使用) -->
+    <div id="imageViewer" class="image-viewer">
+        <img id="displayImg" class="display-img" src="" alt="顯示圖片">
     </div>
 
     <script>
-        // 1. 切換主分頁 (QR Code / 工具)
-        function switchMainTab(tabId, navId) {
+        // 1. 切換四大主頁籤的邏輯
+        function switchTab(tabId, navId) {
+            // 隱藏所有內容與重置上方頁籤顏色
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.top-nav .nav-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             
+            // 顯示選擇的內容並高亮頁籤
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
-        }
 
-        // 2. 切換次分頁 (工具 / 衛教 / 門診表)
-        function switchSubTab(secId, subId) {
-            document.querySelectorAll('.sub-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.sub-item').forEach(sub => sub.classList.remove('active'));
-            
-            document.getElementById(secId).classList.add('active');
-            document.getElementById(subId).classList.add('active');
-
-            // 切換次分頁時，先隱藏下方的圖片顯示區，並清除按鈕選取狀態
+            // 隱藏共用圖片區並重置衛教/門診表的膠囊按鈕顏色，保持畫面乾淨
             document.getElementById('imageViewer').style.display = 'none';
             document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
         }
 
-        // 3. 在同頁顯示圖片
+        // 2. 切換衛教/門診表圖片與按鈕高亮的邏輯
         function showImage(src, buttonElement) {
-            // 顯示圖片區塊並更換圖片路徑
             const viewer = document.getElementById('imageViewer');
             const img = document.getElementById('displayImg');
             viewer.style.display = 'block';
             img.src = src;
 
-            // 讓被點擊的按鈕變色，方便辨識現在看的是哪個項目
+            // 移除其他按鈕的高亮狀態，只讓被點選的按鈕變深灰放大
             document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
             buttonElement.classList.add('active-btn');
         }
 
-        // 4. 切換 QR Code
-        function showQR(type) {
+        // 3. 切換 QR Code 與按鈕高亮的邏輯
+        function showQR(type, buttonElement) {
             const qrImage = document.getElementById('qrImage');
-            const btnNear = document.getElementById('btnNear');
-            const btnAmsler = document.getElementById('btnAmsler');
             
-            btnNear.classList.remove('active');
-            btnAmsler.classList.remove('active');
+            // 移除 QR Code 區塊的按鈕高亮狀態
+            document.getElementById('btnNear').classList.remove('active-btn');
+            document.getElementById('btnAmsler').classList.remove('active-btn');
+            buttonElement.classList.add('active-btn');
 
             if (type === 'near') {
                 qrImage.src = 'qr_near.png'; 
-                btnNear.classList.add('active');
             } else if (type === 'amsler') {
                 qrImage.src = 'qr_amsler.png'; 
-                btnAmsler.classList.add('active');
             }
         }
-
-        // 預設載入近距離閱讀 QR Code
-        window.addEventListener('load', function() {
-            showQR('near');
-        });
     </script>
 </body>
 </html>
