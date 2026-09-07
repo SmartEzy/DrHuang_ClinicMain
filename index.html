@@ -67,34 +67,44 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* 🚀 SVG 圖示專屬樣式 (自動繼承文字顏色) */
+        /* === 🏠 首頁 Emoji 專屬圓形底 === */
+        .home-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px; 
+            height: 26px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        .active-btn .home-emoji {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* 🚀 SVG 圖示專屬樣式 */
         .svg-icon {
             width: 20px; 
             height: 20px;
-            stroke: currentColor; /* 核心：自動跟隨父層文字變色 */
+            stroke: currentColor; 
             fill: none;
             stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
 
-        /* 外部連結專屬樣式 */
-        .btn-link { 
-            color: #0284c7; 
-            background-color: #f0f9ff; 
-            border-color: #7dd3fc; 
-        }
-        .btn-link:active, .btn-link.active-btn { 
-            background-color: #0284c7; 
-            color: #ffffff;
-            border-color: #0284c7; 
-        }
-
-        /* 子選單專屬按鈕形狀 (微圓角方塊) */
+        /* 子選單專屬按鈕形狀 (微圓角方塊、淡淡灰底) */
         .sub-btn {
             border-radius: 12px !important; 
-            padding: 12px 28px;
+            padding: 12px 0 !important; /* 讓文字在固定寬度內完美置中 */
             font-size: 18px;
+            width: 240px; /* 🚀 統一所有按鈕的寬度 */
+            background-color: #e5e7eb !important; /* 🚀 淡淡的灰色底 */
+            border-color: #d1d5db !important; 
+            color: #4b5563 !important; 
+        }
+        .sub-btn:active {
+            background-color: #d1d5db !important; /* 點擊時顏色稍微加深 */
         }
 
         /* === QR Code 圖片區 === */
@@ -114,9 +124,9 @@
         /* === 共用子選單顯示區 === */
         .sub-links-viewer { 
             display: none; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-            gap: 15px; 
+            flex-direction: column; /* 🚀 改為垂直排列 (一列一個) */
+            align-items: center; /* 🚀 將按鈕水平置中 */
+            gap: 12px; 
             padding: 20px; 
             animation: fadeIn 0.2s ease;
         }
@@ -161,7 +171,6 @@
     <!-- 頁籤 3：衛教圖卡 -->
     <div id="tab-edu" class="tab-content">
         <div class="tools-group">
-            <!-- 🚀 修改：放入 SVG 線條房屋圖示 -->
             <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">
                 <svg class="svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
