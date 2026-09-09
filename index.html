@@ -67,22 +67,7 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* === 🏠 首頁 Emoji 專屬圓形底 === */
-        .home-emoji {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 26px; 
-            height: 26px;
-            border-radius: 50%;
-            transition: all 0.2s ease;
-        }
-        .active-btn .home-emoji {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* 🚀 SVG 圖示專屬樣式 */
+        /* === 🏠 首頁 SVG 專屬樣式 === */
         .svg-icon {
             width: 20px; 
             height: 20px;
@@ -93,18 +78,18 @@
             stroke-linejoin: round;
         }
 
-        /* 子選單專屬按鈕形狀 (微圓角方塊、淡淡灰底) */
+        /* 🚀 === 子選單按鈕 (淡淡灰底、統一寬度) === */
         .sub-btn {
             border-radius: 12px !important; 
-            padding: 12px 0 !important; /* 讓文字在固定寬度內完美置中 */
+            padding: 12px 0 !important; 
             font-size: 18px;
-            width: 240px; /* 🚀 統一所有按鈕的寬度 */
-            background-color: #e5e7eb !important; /* 🚀 淡淡的灰色底 */
+            width: 240px; 
+            background-color: #e5e7eb !important; 
             border-color: #d1d5db !important; 
             color: #4b5563 !important; 
         }
         .sub-btn:active {
-            background-color: #d1d5db !important; /* 點擊時顏色稍微加深 */
+            background-color: #d1d5db !important; 
         }
 
         /* === QR Code 圖片區 === */
@@ -121,15 +106,50 @@
             width: auto; object-fit: contain; box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
         }
 
-        /* === 共用子選單顯示區 === */
+        /* 🚀 === 共用子選單顯示區 === */
         .sub-links-viewer { 
             display: none; 
-            flex-direction: column; /* 🚀 改為垂直排列 (一列一個) */
-            align-items: center; /* 🚀 將按鈕水平置中 */
-            gap: 12px; 
-            padding: 20px; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 20px; /* 框架之間的垂直間距 */
+            padding: 10px 20px 30px 20px; 
             animation: fadeIn 0.2s ease;
+            /* 允許內容過多時可垂直滑動，避免卡死在窄螢幕 */
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
         }
+
+        /* 🚀 新增：分類區塊的白色卡片外框 */
+        .link-category {
+            background-color: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 15px 20px 20px 20px;
+            width: 100%;
+            max-width: 280px; /* 控制卡片寬度，剛好包住 240px 的按鈕 */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+
+        /* 🚀 新增：分類區塊的標題 */
+        .category-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #6b7280;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f3f4f6; /* 標題下方的淡淡分隔線 */
+            letter-spacing: 0.5px;
+        }
+
+        /* 🚀 新增：卡片內部的按鈕排列 */
+        .category-links {
+            display: flex;
+            flex-direction: column; /* 維持一列一個 */
+            align-items: center;
+            gap: 12px;
+        }
+
     </style>
 </head>
 <body>
@@ -193,7 +213,9 @@
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text">🔗 CD Ratio</a>
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text">🔗 KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text">🔗 Clerk Manual</a>
-            <button id="btn-icd" class="btn-text tool-btn" onclick="showSubLinks(this)">🔗 ICD 10</button>
+            
+            <!-- 🚀 更名為 Links -->
+            <button id="btn-links" class="btn-text tool-btn" onclick="showSubLinks(this)">🔗 Links</button>
             
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
             <button class="btn-text img-btn tool-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
@@ -202,12 +224,29 @@
         </div>
     </div>
 
-    <!-- 子連結顯示區 -->
+    <!-- 🚀 子連結顯示區 (包含多個分類卡片框架) -->
     <div id="subLinksViewer" class="sub-links-viewer">
-        <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text sub-btn">衛福部</a>
-        <a href="https://icd.who.int/browse10/2019/en" class="btn-text sub-btn">WHO</a>
-        <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text sub-btn">AAPC</a>
-        <a href="https://www.icd10data.com/" class="btn-text sub-btn">ICD10Data</a>
+        
+        <!-- 框架 1：ICD 10 -->
+        <div class="link-category">
+            <div class="category-title">ICD 10</div>
+            <div class="category-links">
+                <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text sub-btn">衛福部</a>
+                <a href="https://icd.who.int/browse10/2019/en" class="btn-text sub-btn">WHO</a>
+                <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text sub-btn">AAPC</a>
+                <a href="https://www.icd10data.com/" class="btn-text sub-btn">ICD10Data</a>
+            </div>
+        </div>
+
+        <!-- 框架 2：Pregnancy Category -->
+        <div class="link-category">
+            <div class="category-title">Pregnancy Category</div>
+            <div class="category-links">
+                <a href="https://www.drugs.com/pregnancy/" class="btn-text sub-btn">Drugs.com</a>
+                <a href="https://reference.medscape.com/drugs" class="btn-text sub-btn">Medscape</a>
+            </div>
+        </div>
+
     </div>
 
     <!-- 共用圖片顯示區 -->
