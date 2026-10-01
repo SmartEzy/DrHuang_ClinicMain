@@ -13,6 +13,7 @@ Github：
 開啟 ➔ Current Repository DrHuag_ClinicMain
 ➔ Show in Finder (Shift + Command + F)，將檔名相同的檔案拉進去，取代
 ➔ 左下角Summary輸入摘要文字，點擊左下角的 Commit to main
+➔ (若有)Fetch ➔ Pull origin
 ➔ push origin
 
 * 高醫⁠⁠ / hosp_kmuh.jpg
