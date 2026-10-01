@@ -9,6 +9,12 @@
 「格式」 下拉選單請選擇 「JPEG」。
 「品質」的滑桿。請將滑桿往右邊拉，盡量靠近「最佳」（檔案大小大約控制在 500 KB 到 800 KB 左右是完美的平衡）。
 
+Github：
+開啟 ➔ Current Repository DrHuag_ClinicMain
+➔ Show in Finder (Shift + Command + F)，將檔名相同的檔案拉進去，取代
+➔ 左下角Summary輸入摘要文字，點擊左下角的 Commit to main
+➔ push origin
+
 * 高醫⁠⁠ / hosp_kmuh.jpg
 * 小港 / hosp_kmsh.jpg
 * 岡山 / hosp_kmugh.jpg
