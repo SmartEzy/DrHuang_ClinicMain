@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Tools</title>
+    
+    <link rel="icon" href="icon_main.jpg">
+    <link rel="apple-touch-icon" href="icon_main.jpg">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f3f4f6; 
+            text-align: center; 
+            overflow-y: hidden; 
+        }
+        
+        /* === 第一層導覽列 === */
+        .top-nav { 
+            display: flex; justify-content: center; align-items: center; gap: 10px; 
+            background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            padding: 10px 10px 0 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
+            flex-wrap: nowrap; 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch;
+        }
+        .top-nav::-webkit-scrollbar { display: none; }
+
+        .nav-item { 
+            padding: 10px 16px; font-size: 18px; font-weight: bold; color: #9ca3af; 
+            cursor: pointer; border-bottom: 4px solid transparent; transition: all 0.2s ease;
+            white-space: nowrap; 
+            flex-shrink: 0; 
+        }
+        .nav-item:hover { color: #4b5563; }
+        .nav-item.active { color: #374151; border-bottom-color: #374151; }
+
+        /* === 分頁內容區 === */
+        .tab-content { 
+            display: none; padding: 0 15px; animation: fadeIn 0.2s ease; 
+            max-width: 98%; margin: 0 auto; 
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* === 膠囊按鈕區 === */
+        .tools-group { 
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
+        }
+
+        .btn-text {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
+            background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
+            text-decoration: none; cursor: pointer; transition: all 0.2s ease;
+            white-space: nowrap; 
+        }
+        .btn-text.active-btn { 
+            background-color: #4b5563; color: #ffffff; border-color: #4b5563; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        .btn-text:active { transform: scale(0.95); }
+
+        /* === 🏠 首頁 SVG 專屬樣式 === */
+        .svg-icon {
+            width: 20px; 
+            height: 20px;
+            stroke: currentColor; 
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* 🚀 === 子選單按鈕 (淡淡灰底、統一寬度) === */
+        .sub-btn {
+            border-radius: 12px !important; 
+            padding: 12px 0 !important; 
+            font-size: 18px;
+            width: 240px; 
+            background-color: #e5e7eb !important; 
+            border-color: #d1d5db !important; 
+            color: #4b5563 !important; 
+        }
+        .sub-btn:active {
+            background-color: #d1d5db !important; 
+        }
+
+        /* === QR Code 圖片區 === */
+        .qr-image { 
+            width: 300px; height: 300px; background-color: #ffffff; padding: 15px; 
+            border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; cursor: pointer; 
+        }
+        #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        /* === 同頁圖片顯示區 === */
+        .image-viewer { display: none; text-align: center; animation: fadeIn 0.2s ease; }
+        .display-img { 
+            max-width: 100%; max-height: calc(100vh - 160px); 
+            width: auto; object-fit: contain; box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+        }
+
+        /* 🚀 === 共用子選單顯示區 === */
+        .sub-links-viewer { 
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 20px; /* 框架之間的垂直間距 */
+            padding: 10px 20px 30px 20px; 
+            animation: fadeIn 0.2s ease;
+            /* 允許內容過多時可垂直滑動，避免卡死在窄螢幕 */
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+
+        /* 🚀 新增：分類區塊的白色卡片外框 */
+        .link-category {
+            background-color: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 15px 20px 20px 20px;
+            width: 100%;
+            max-width: 280px; /* 控制卡片寬度，剛好包住 240px 的按鈕 */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+
+        /* 🚀 新增：分類區塊的標題 */
+        .category-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #6b7280;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f3f4f6; /* 標題下方的淡淡分隔線 */
+            letter-spacing: 0.5px;
+        }
+
+        /* 🚀 新增：卡片內部的按鈕排列 */
+        .category-links {
+            display: flex;
+            flex-direction: column; /* 維持一列一個 */
+            align-items: center;
+            gap: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <div class="top-nav">
+        <div id="nav-qr" class="nav-item active" onclick="switchTab('tab-qr', 'nav-qr')">QR code</div>
+        <div id="nav-hosp" class="nav-item" onclick="switchTab('tab-hosp', 'nav-hosp')">門診表</div>
+        <div id="nav-edu" class="nav-item" onclick="switchTab('tab-edu', 'nav-edu')">衛教</div>
+        <div id="nav-tool" class="nav-item" onclick="switchTab('tab-tool', 'nav-tool')">Tools</div>
+    </div>
+
+    <!-- 頁籤 1：QR Code -->
+    <div id="tab-qr" class="tab-content active">
+        <div class="tools-group">
+            <button id="btnNear" class="btn-text active-btn" onclick="showQR('near', this)">近距離閱讀測試</button>
+            <button id="btnAmsler" class="btn-text" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
+        </div>
+        <div id="qrArea">
+            <a id="qrLink" href="https://smartezy.github.io/DrHuang_EyeTest2/">
+                <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
+            </a>
+        </div>
+    </div>
+
+    <!-- 頁籤 2：門診表 -->
+    <div id="tab-hosp" class="tab-content">
+        <div class="tools-group">
+            <button id="btn-default-hosp" class="btn-text img-btn" onclick="showImage('hosp_kmuh.jpg', this)">高醫</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kmsh.jpg', this)">小港</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kmugh.jpg', this)">岡山</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kcgh.jpg', this)">長庚</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_kvgh.jpg', this)">榮總</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_ygh.jpg', this)">阮綜合</button>
+            <button class="btn-text img-btn" onclick="showImage('hosp_lin.jpg', this)">德昌</button>
+        </div>
+    </div>
+
+    <!-- 頁籤 3：衛教圖卡 -->
+    <div id="tab-edu" class="tab-content">
+        <div class="tools-group">
+            <button id="btn-default-edu" class="btn-text img-btn" onclick="showImage('edu_eyeball.jpg', this)">
+                <svg class="svg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </button>
+            <button class="btn-text img-btn" onclick="showImage('edu_refraction.jpg', this)">Refraction</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_corneaulcer.jpg', this)">Cornea ulcer</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_cataract.jpg', this)">Cataract</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_glaucoma.jpg', this)">Glaucoma</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_floater.jpg', this)">Floater</button>
+            <button class="btn-text img-btn" onclick="showImage('edu_maculopathy.jpg', this)">Maculopathy</button>
+        </div>
+    </div>
+
+    <!-- 頁籤 4：Tools -->
+    <div id="tab-tool" class="tab-content">
+        <div class="tools-group">
+            <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text">🔗 IOP</a>
+            <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text">🔗 CD Ratio</a>
+            <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text">🔗 KMUH Drugs</a>
+            <a href="tools_kmuhclerkmanual.pdf" class="btn-text">🔗 Clerk Manual</a>
+            
+            <!-- 🚀 更名為 Links -->
+            <button id="btn-links" class="btn-text tool-btn" onclick="showSubLinks(this)">🔗 Links</button>
+            
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_iolformula.png', this)">IOL Formula</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_sulcusiol.jpg', this)">Sulcus IOL</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_steroid.png', this)">Steroid</button>
+            <button class="btn-text img-btn tool-btn" onclick="showImage('tools_anticoagulant.png', this)">Anticoagulant</button>
+        </div>
+    </div>
+
+    <!-- 🚀 子連結顯示區 (包含多個分類卡片框架) -->
+    <div id="subLinksViewer" class="sub-links-viewer">
+        
+        <!-- 框架 1：ICD 10 -->
+        <div class="link-category">
+            <div class="category-title">ICD 10</div>
+            <div class="category-links">
+                <a href="https://info.nhi.gov.tw/inae5000/INAE5010S01" class="btn-text sub-btn">衛福部</a>
+                <a href="https://icd.who.int/browse10/2019/en" class="btn-text sub-btn">WHO</a>
+                <a href="https://www.aapc.com/codes/icd-10-codes-range/" class="btn-text sub-btn">AAPC</a>
+                <a href="https://www.icd10data.com/" class="btn-text sub-btn">ICD10Data</a>
+            </div>
+        </div>
+
+        <!-- 框架 2：Pregnancy Category -->
+        <div class="link-category">
+            <div class="category-title">Pregnancy Category</div>
+            <div class="category-links">
+                <a href="https://www.drugs.com/pregnancy/" class="btn-text sub-btn">Drugs.com</a>
+                <a href="https://reference.medscape.com/drugs" class="btn-text sub-btn">Medscape</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 共用圖片顯示區 -->
+    <div id="imageViewer" class="image-viewer">
+        <img id="displayImg" class="display-img" src="" alt="顯示圖片">
+    </div>
+
+    <script>
+        function switchTab(tabId, navId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById(navId).classList.add('active');
+
+            document.getElementById('imageViewer').style.display = 'none';
+            document.getElementById('subLinksViewer').style.display = 'none';
+            
+            document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
+
+            if (tabId === 'tab-edu') {
+                showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
+            } else if (tabId === 'tab-hosp') {
+                showImage('hosp_kmuh.jpg', document.getElementById('btn-default-hosp'));
+            }
+        }
+
+        function showSubLinks(buttonElement) {
+            document.getElementById('imageViewer').style.display = 'none';
+            document.getElementById('subLinksViewer').style.display = 'flex';
+            
+            document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
+            buttonElement.classList.add('active-btn');
+        }
+
+        function showImage(src, buttonElement) {
+            document.getElementById('subLinksViewer').style.display = 'none';
+            
+            const viewer = document.getElementById('imageViewer');
+            const img = document.getElementById('displayImg');
+            viewer.style.display = 'block';
+            img.src = src;
+
+            document.querySelectorAll('.img-btn, .tool-btn').forEach(btn => btn.classList.remove('active-btn'));
+            buttonElement.classList.add('active-btn');
+        }
+
+        function showQR(type, buttonElement) {
+            const qrImage = document.getElementById('qrImage');
+            const qrLink = document.getElementById('qrLink');
+            
+            document.getElementById('btnNear').classList.remove('active-btn');
+            document.getElementById('btnAmsler').classList.remove('active-btn');
+            buttonElement.classList.add('active-btn');
+
+            if (type === 'near') {
+                qrImage.src = 'qr_near.png'; 
+                qrLink.href = 'https://smartezy.github.io/DrHuang_EyeTest2/'; 
+            } else if (type === 'amsler') {
+                qrImage.src = 'qr_amsler.png'; 
+                qrLink.href = 'https://smartezy.github.io/DrHuang_EyeTest/'; 
+            }
+        }
+    </script>
+</body>
+</html>
