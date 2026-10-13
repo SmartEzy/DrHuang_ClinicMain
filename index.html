@@ -11,14 +11,24 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <!-- 🚀 預先建立外部網站連線，加速 KMUH Drugs 與其他計算機開啟速度 -->
+    <link rel="dns-prefetch" href="https://sites.google.com">
+    <link rel="preconnect" href="https://sites.google.com" crossorigin>
+    <link rel="dns-prefetch" href="https://smartezy.github.io">
+    <link rel="preconnect" href="https://smartezy.github.io" crossorigin>
+
     <style>
+        /* 加入 box-sizing 確保所有邊框與內距計算精準對齊 */
+        * {
+            box-sizing: border-box;
+        }
+
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
             margin: 0; 
             padding: 0; 
             background-color: #f3f4f6; 
             text-align: center; 
-            /* 允許頁面在內容較多時(如Links頁)可以自然垂直滑動 */
             overflow-x: hidden;
             overflow-y: auto; 
             -webkit-overflow-scrolling: touch;
@@ -28,7 +38,7 @@
         .top-nav { 
             display: flex; justify-content: center; align-items: center; gap: 10px; 
             background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            padding: 10px 10px 0 10px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; 
+            padding: 10px 10px 0 10px; margin-bottom: 20px; position: sticky; top: 0; z-index: 100; 
             flex-wrap: nowrap; 
             overflow-x: auto; 
             -webkit-overflow-scrolling: touch;
@@ -52,14 +62,14 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === 膠囊按鈕區 === */
+        /* === 膠囊按鈕區 (一般分頁使用) === */
         .tools-group { 
             display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; 
         }
 
         .btn-text {
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 10px 20px; font-size: 16px; font-weight: bold; color: #4b5563; 
+            padding: 10px 18px; font-size: 16px; font-weight: bold; color: #4b5563; 
             background-color: #ffffff; border: 2px solid #d1d5db; border-radius: 50px; 
             text-decoration: none; cursor: pointer; transition: all 0.2s ease;
             white-space: nowrap; 
@@ -69,6 +79,19 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
         .btn-text:active { transform: scale(0.95); }
+
+        /* 🚀 === Links 頁面專屬：統一寬度與整齊對齊 === */
+        .paired-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .paired-btn {
+            width: 154px; /* 兩顆 154px + 間距 12px = 總寬 320px，與下方卡片完美切齊 */
+            padding: 10px 0 !important;
+            font-size: 15px;
+        }
 
         /* === 🏠 首頁 SVG 專屬樣式 === */
         .svg-icon {
@@ -81,47 +104,37 @@
             stroke-linejoin: round;
         }
 
-        /* === 子選單按鈕 (淡淡灰底、統一寬度) === */
-        .sub-btn {
-            border-radius: 12px !important; 
-            padding: 12px 0 !important; 
-            font-size: 18px;
-            width: 240px; 
-            background-color: #e5e7eb !important; 
-            border-color: #d1d5db !important; 
-            color: #4b5563 !important; 
-        }
-        .sub-btn:active {
-            background-color: #d1d5db !important; 
-        }
-
-        /* === QR Code 圖片區 === */
-        #qrArea { margin-bottom: 20px; }
+        /* === QR Code 圖片區 (總寬度統一為 320px) === */
+        #qrArea { margin-bottom: 16px; }
         .qr-image { 
-            width: 260px; height: 260px; background-color: #ffffff; padding: 15px; 
-            border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); object-fit: contain; cursor: pointer; 
+            width: 320px; height: 320px; /* 統一為 320px 與按鈕群組及卡片切齊 */
+            max-width: 100%;
+            background-color: #ffffff; padding: 18px; 
+            border-radius: 16px; box-shadow: 0 6px 15px -3px rgba(0, 0, 0, 0.08); 
+            border: 2px solid #e5e7eb;
+            object-fit: contain; cursor: pointer; 
         }
         #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
 
-        /* === Links 頁面的卡片區塊容器 (支援 iPad 並排顯示) === */
+        /* === Links 頁面的卡片區塊容器 === */
         .categories-wrapper {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 16px;
+            margin-top: 6px;
             padding-bottom: 40px;
         }
 
-        /* 分類區塊的白色卡片外框 */
+        /* 分類區塊的白色卡片外框 (總寬度統一為 320px) */
         .link-category {
             background-color: #ffffff;
             border: 2px solid #e5e7eb;
             border-radius: 16px;
-            padding: 15px 20px 20px 20px;
-            width: 100%;
-            max-width: 280px; 
+            padding: 16px 20px 20px 20px;
+            width: 320px; 
+            max-width: 100%;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             text-align: center;
         }
@@ -131,7 +144,7 @@
             font-size: 15px;
             font-weight: bold;
             color: #6b7280;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
             padding-bottom: 8px;
             border-bottom: 2px solid #f3f4f6; 
             letter-spacing: 0.5px;
@@ -143,6 +156,20 @@
             flex-direction: column; 
             align-items: center;
             gap: 12px;
+        }
+
+        /* === 子選單按鈕 (淡淡灰底、100% 填滿卡片內部寬度) === */
+        .sub-btn {
+            border-radius: 12px !important; 
+            padding: 12px 0 !important; 
+            font-size: 17px;
+            width: 100%; /* 讓按鈕自動貼齊卡片內側邊緣 */
+            background-color: #e5e7eb !important; 
+            border-color: #d1d5db !important; 
+            color: #4b5563 !important; 
+        }
+        .sub-btn:active {
+            background-color: #d1d5db !important; 
         }
 
         /* === 同頁圖片顯示區 === */
@@ -166,9 +193,9 @@
     <!-- 頁籤 1：Links -->
     <div id="tab-links" class="tab-content active">
         <!-- 1. 兩個膠囊（近距離/黃斑部） -->
-        <div class="tools-group">
-            <button id="btnNear" class="btn-text active-btn" onclick="showQR('near', this)">近距離閱讀測試</button>
-            <button id="btnAmsler" class="btn-text" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
+        <div class="paired-group">
+            <button id="btnNear" class="btn-text paired-btn active-btn" onclick="showQR('near', this)">近距離閱讀測試</button>
+            <button id="btnAmsler" class="btn-text paired-btn" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
         </div>
         
         <!-- 2. QR code（含點按連結） -->
@@ -179,15 +206,15 @@
         </div>
 
         <!-- 3. IOP, CD Ratio -->
-        <div class="tools-group" style="margin-bottom: 12px;">
-            <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text">🔗 IOP</a>
-            <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text">🔗 CD Ratio</a>
+        <div class="paired-group">
+            <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text paired-btn">🔗 IOP</a>
+            <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text paired-btn">🔗 CD Ratio</a>
         </div>
 
         <!-- 4. KMUH Drugs, Clerk Manual -->
-        <div class="tools-group">
-            <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text">🔗 KMUH Drugs</a>
-            <a href="tools_kmuhclerkmanual.pdf" class="btn-text">🔗 Clerk Manual</a>
+        <div class="paired-group">
+            <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text paired-btn">🔗 KMUH Drugs</a>
+            <a href="tools_kmuhclerkmanual.pdf" class="btn-text paired-btn">🔗 Clerk Manual</a>
         </div>
 
         <!-- 5. ICD 10 區塊 & 6. Pregnancy Category 區塊 -->
@@ -309,9 +336,9 @@
             }
         }
 
-        // 🚀 智慧背景預載入機制 (解決圖片開啟慢的問題)
+        // 🚀 三階段智慧背景預載入機制
         window.addEventListener('load', function() {
-            // 第一階段：網頁載入後 0.3 秒，優先在背景預載各分頁的「第一張預設圖片」與另一張 QR code
+            // 第一階段 (0.3秒)：優先預載各分頁的「第一張預設圖片」與另一張 QR code
             const priorityImages = [
                 'qr_amsler.png',
                 'hosp_kmuh.jpg',
@@ -319,14 +346,14 @@
                 'tools_iolformula.png'
             ];
 
-            // 第二階段：1.5 秒後，繼續在背景把所有剩下的門診表、衛教圖、工具圖全部載入快取
+            // 第二階段 (1.5秒)：載入所有剩下的門診表、衛教圖、工具圖
             const secondaryImages = [
                 'hosp_kmsh.jpg', 'hosp_kmugh.jpg', 'hosp_kcgh.jpg', 'hosp_kvgh.jpg', 'hosp_ygh.jpg', 'hosp_lin.jpg',
                 'edu_refraction.jpg', 'edu_corneaulcer.jpg', 'edu_cataract.jpg', 'edu_glaucoma.jpg', 'edu_floater.jpg', 'edu_maculopathy.jpg',
                 'tools_sulcusiol.jpg', 'tools_steroid.png', 'tools_anticoagulant.png'
             ];
 
-            function preload(imgArray) {
+            function preloadImages(imgArray) {
                 imgArray.forEach(function(src) {
                     const img = new Image();
                     img.src = src;
@@ -334,12 +361,26 @@
             }
 
             setTimeout(function() {
-                preload(priorityImages);
+                preloadImages(priorityImages);
             }, 300);
 
             setTimeout(function() {
-                preload(secondaryImages);
+                preloadImages(secondaryImages);
             }, 1500);
+
+            // 第三階段 (3.5秒)：等圖片都載完後，在背景預先下載 Clerk Manual PDF 與預熱其他網頁
+            setTimeout(function() {
+                // 預載同網域的 PDF 與計算機網頁進瀏覽器快取
+                fetch('tools_kmuhclerkmanual.pdf').catch(function(){});
+                fetch('https://smartezy.github.io/DrHuang_OphCalc/').catch(function(){});
+                fetch('https://smartezy.github.io/DrHuang_CDRatio/').catch(function(){});
+
+                // 針對外部的 KMUH Drugs 加入 prerender / prefetch 提示標籤
+                const link = document.createElement('link');
+                link.rel = 'prerender';
+                link.href = 'https://sites.google.com/view/kmuoph-drugs/';
+                document.head.appendChild(link);
+            }, 3500);
         });
     </script>
 </body>
