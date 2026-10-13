@@ -80,7 +80,7 @@
         }
         .btn-text:active { transform: scale(0.95); }
 
-        /* 🚀 === Links 頁面專屬：統一寬度與整齊對齊 === */
+        /* === Links 頁面專屬：統一寬度與整齊對齊 === */
         .paired-group {
             display: flex;
             justify-content: center;
@@ -88,7 +88,7 @@
             margin-bottom: 14px;
         }
         .paired-btn {
-            width: 154px; /* 兩顆 154px + 間距 12px = 總寬 320px，與下方卡片完美切齊 */
+            width: 154px; 
             padding: 10px 0 !important;
             font-size: 15px;
         }
@@ -104,15 +104,60 @@
             stroke-linejoin: round;
         }
 
-        /* === QR Code 圖片區 (總寬度統一為 320px) === */
-        #qrArea { margin-bottom: 16px; }
-        .qr-image { 
-            width: 320px; height: 320px; /* 統一為 320px 與按鈕群組及卡片切齊 */
+        /* 🚀 === QR Code 書籤/頁籤式設計 === */
+        .qr-folder-wrapper {
+            width: 320px; /* 統一為 320px 與下方卡片完美切齊 */
             max-width: 100%;
-            background-color: #ffffff; padding: 18px; 
-            border-radius: 16px; box-shadow: 0 6px 15px -3px rgba(0, 0, 0, 0.08); 
+            margin: 0 auto 16px auto;
+        }
+
+        .qr-tabs {
+            display: flex;
+            margin-bottom: -2px; /* 將頁籤往下推 2px，用來覆蓋下方內容區的頂部邊框 */
+            position: relative;
+            z-index: 2;
+            padding: 0 8px; /* 頁籤左右留一點點邊距，更有真實資料夾的感覺 */
+            gap: 6px;
+        }
+
+        .qr-tab {
+            flex: 1;
+            padding: 10px 0;
+            font-size: 15px; 
+            font-weight: bold;
+            color: #9ca3af; /* 未選取時文字為淺灰色 */
+            background-color: #f3f4f6; /* 未選取時的背景融入網頁底色 */
             border: 2px solid #e5e7eb;
-            object-fit: contain; cursor: pointer; 
+            border-bottom: 2px solid #e5e7eb; /* 預設有底邊框 */
+            border-radius: 12px 12px 0 0; /* 上圓角，下方直角 */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .qr-tab.active-tab {
+            background-color: #ffffff; /* 變成白底 */
+            color: #4b5563; /* 文字變深 */
+            border-bottom: 2px solid #ffffff; /* 🚀 關鍵：底邊框變成白色，與下方區塊無縫融合！ */
+        }
+
+        .qr-content {
+            background-color: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 6px 15px -3px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        .qr-image { 
+            width: 100%; 
+            height: auto; 
+            aspect-ratio: 1 / 1;
+            object-fit: contain; 
+            cursor: pointer; 
+            display: block;
         }
         #qrLink { text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent; }
 
@@ -127,7 +172,7 @@
             padding-bottom: 40px;
         }
 
-        /* 分類區塊的白色卡片外框 (總寬度統一為 320px) */
+        /* 分類區塊的白色卡片外框 */
         .link-category {
             background-color: #ffffff;
             border: 2px solid #e5e7eb;
@@ -163,7 +208,7 @@
             border-radius: 12px !important; 
             padding: 12px 0 !important; 
             font-size: 17px;
-            width: 100%; /* 讓按鈕自動貼齊卡片內側邊緣 */
+            width: 100%; 
             background-color: #e5e7eb !important; 
             border-color: #d1d5db !important; 
             color: #4b5563 !important; 
@@ -192,17 +237,18 @@
 
     <!-- 頁籤 1：Links -->
     <div id="tab-links" class="tab-content active">
-        <!-- 1. 兩個膠囊（近距離/黃斑部） -->
-        <div class="paired-group">
-            <button id="btnNear" class="btn-text paired-btn active-btn" onclick="showQR('near', this)">近距離閱讀測試</button>
-            <button id="btnAmsler" class="btn-text paired-btn" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
-        </div>
         
-        <!-- 2. QR code（含點按連結） -->
-        <div id="qrArea">
-            <a id="qrLink" href="https://smartezy.github.io/DrHuang_EyeTest2/">
-                <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
-            </a>
+        <!-- 🚀 1 & 2. QR code 專區 (採用書籤/頁籤側標設計) -->
+        <div class="qr-folder-wrapper">
+            <div class="qr-tabs">
+                <button id="btnNear" class="qr-tab active-tab" onclick="showQR('near', this)">近距離閱讀測試</button>
+                <button id="btnAmsler" class="qr-tab" onclick="showQR('amsler', this)">黃斑部自我檢查</button>
+            </div>
+            <div class="qr-content">
+                <a id="qrLink" href="https://smartezy.github.io/DrHuang_EyeTest2/">
+                    <img id="qrImage" class="qr-image" src="qr_near.png" alt="QR Code">
+                </a>
+            </div>
         </div>
 
         <!-- 3. IOP, CD Ratio -->
@@ -319,13 +365,14 @@
             }
         }
 
+        // 🚀 修改：改為套用 active-tab 樣式
         function showQR(type, buttonElement) {
             const qrImage = document.getElementById('qrImage');
             const qrLink = document.getElementById('qrLink');
             
-            document.getElementById('btnNear').classList.remove('active-btn');
-            document.getElementById('btnAmsler').classList.remove('active-btn');
-            buttonElement.classList.add('active-btn');
+            document.getElementById('btnNear').classList.remove('active-tab');
+            document.getElementById('btnAmsler').classList.remove('active-tab');
+            buttonElement.classList.add('active-tab');
 
             if (type === 'near') {
                 qrImage.src = 'qr_near.png'; 
