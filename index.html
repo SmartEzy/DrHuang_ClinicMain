@@ -104,7 +104,7 @@
             stroke-linejoin: round;
         }
 
-        /* 🚀 === QR Code 書籤/頁籤式設計 === */
+        /* === QR Code 書籤/頁籤式設計 === */
         .qr-folder-wrapper {
             width: 320px; /* 統一為 320px 與下方卡片完美切齊 */
             max-width: 100%;
@@ -116,7 +116,7 @@
             margin-bottom: -2px; /* 將頁籤往下推 2px，用來覆蓋下方內容區的頂部邊框 */
             position: relative;
             z-index: 2;
-            padding: 0 8px; /* 頁籤左右留一點點邊距，更有真實資料夾的感覺 */
+            padding: 0; /* 🚀 拿掉左右邊距，與下方框架完美切齊 */
             gap: 6px;
         }
 
@@ -137,7 +137,7 @@
         .qr-tab.active-tab {
             background-color: #ffffff; /* 變成白底 */
             color: #4b5563; /* 文字變深 */
-            border-bottom: 2px solid #ffffff; /* 🚀 關鍵：底邊框變成白色，與下方區塊無縫融合！ */
+            border-bottom: 2px solid #ffffff; /* 關鍵：底邊框變成白色，與下方區塊無縫融合！ */
         }
 
         .qr-content {
@@ -238,7 +238,7 @@
     <!-- 頁籤 1：Links -->
     <div id="tab-links" class="tab-content active">
         
-        <!-- 🚀 1 & 2. QR code 專區 (採用書籤/頁籤側標設計) -->
+        <!-- QR code 專區 (採用書籤/頁籤側標設計) -->
         <div class="qr-folder-wrapper">
             <div class="qr-tabs">
                 <button id="btnNear" class="qr-tab active-tab" onclick="showQR('near', this)">近距離閱讀測試</button>
@@ -251,19 +251,19 @@
             </div>
         </div>
 
-        <!-- 3. IOP, CD Ratio -->
+        <!-- IOP, CD Ratio -->
         <div class="paired-group">
             <a href="https://smartezy.github.io/DrHuang_OphCalc/" class="btn-text paired-btn">🔗 IOP</a>
             <a href="https://smartezy.github.io/DrHuang_CDRatio/" class="btn-text paired-btn">🔗 CD Ratio</a>
         </div>
 
-        <!-- 4. KMUH Drugs, Clerk Manual -->
+        <!-- KMUH Drugs, Clerk Manual -->
         <div class="paired-group">
             <a href="https://sites.google.com/view/kmuoph-drugs/" class="btn-text paired-btn">🔗 KMUH Drugs</a>
             <a href="tools_kmuhclerkmanual.pdf" class="btn-text paired-btn">🔗 Clerk Manual</a>
         </div>
 
-        <!-- 5. ICD 10 區塊 & 6. Pregnancy Category 區塊 -->
+        <!-- ICD 10 區塊 & Pregnancy Category 區塊 -->
         <div class="categories-wrapper">
             <div class="link-category">
                 <div class="category-title">ICD 10</div>
@@ -326,109 +326,11 @@
         </div>
     </div>
 
-    <!-- 共用圖片顯示區 (供 門診表 / 衛教 / Others 使用) -->
+    <!-- 共用圖片顯示區 -->
     <div id="imageViewer" class="image-viewer">
         <img id="displayImg" class="display-img" src="" alt="顯示圖片">
     </div>
 
     <script>
         function switchTab(tabId, navId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            document.getElementById(navId).classList.add('active');
-
-            // 先隱藏共用圖片區並清除按鈕狀態
-            document.getElementById('imageViewer').style.display = 'none';
-            document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
-
-            // 切換到圖片類分頁時，預設直接顯示第一張圖
-            if (tabId === 'tab-hosp') {
-                showImage('hosp_kmuh.jpg', document.getElementById('btn-default-hosp'));
-            } else if (tabId === 'tab-edu') {
-                showImage('edu_eyeball.jpg', document.getElementById('btn-default-edu'));
-            } else if (tabId === 'tab-others') {
-                showImage('tools_iolformula.png', document.getElementById('btn-default-others'));
-            }
-        }
-
-        function showImage(src, buttonElement) {
-            const viewer = document.getElementById('imageViewer');
-            const img = document.getElementById('displayImg');
-            viewer.style.display = 'block';
-            img.src = src;
-
-            document.querySelectorAll('.img-btn').forEach(btn => btn.classList.remove('active-btn'));
-            if (buttonElement) {
-                buttonElement.classList.add('active-btn');
-            }
-        }
-
-        // 🚀 修改：改為套用 active-tab 樣式
-        function showQR(type, buttonElement) {
-            const qrImage = document.getElementById('qrImage');
-            const qrLink = document.getElementById('qrLink');
-            
-            document.getElementById('btnNear').classList.remove('active-tab');
-            document.getElementById('btnAmsler').classList.remove('active-tab');
-            buttonElement.classList.add('active-tab');
-
-            if (type === 'near') {
-                qrImage.src = 'qr_near.png'; 
-                qrLink.href = 'https://smartezy.github.io/DrHuang_EyeTest2/'; 
-            } else if (type === 'amsler') {
-                qrImage.src = 'qr_amsler.png'; 
-                qrLink.href = 'https://smartezy.github.io/DrHuang_EyeTest/'; 
-            }
-        }
-
-        // 🚀 三階段智慧背景預載入機制
-        window.addEventListener('load', function() {
-            // 第一階段 (0.3秒)：優先預載各分頁的「第一張預設圖片」與另一張 QR code
-            const priorityImages = [
-                'qr_amsler.png',
-                'hosp_kmuh.jpg',
-                'edu_eyeball.jpg',
-                'tools_iolformula.png'
-            ];
-
-            // 第二階段 (1.5秒)：載入所有剩下的門診表、衛教圖、工具圖
-            const secondaryImages = [
-                'hosp_kmsh.jpg', 'hosp_kmugh.jpg', 'hosp_kcgh.jpg', 'hosp_kvgh.jpg', 'hosp_ygh.jpg', 'hosp_lin.jpg',
-                'edu_refraction.jpg', 'edu_corneaulcer.jpg', 'edu_cataract.jpg', 'edu_glaucoma.jpg', 'edu_floater.jpg', 'edu_maculopathy.jpg',
-                'tools_sulcusiol.jpg', 'tools_steroid.png', 'tools_anticoagulant.png'
-            ];
-
-            function preloadImages(imgArray) {
-                imgArray.forEach(function(src) {
-                    const img = new Image();
-                    img.src = src;
-                });
-            }
-
-            setTimeout(function() {
-                preloadImages(priorityImages);
-            }, 300);
-
-            setTimeout(function() {
-                preloadImages(secondaryImages);
-            }, 1500);
-
-            // 第三階段 (3.5秒)：等圖片都載完後，在背景預先下載 Clerk Manual PDF 與預熱其他網頁
-            setTimeout(function() {
-                // 預載同網域的 PDF 與計算機網頁進瀏覽器快取
-                fetch('tools_kmuhclerkmanual.pdf').catch(function(){});
-                fetch('https://smartezy.github.io/DrHuang_OphCalc/').catch(function(){});
-                fetch('https://smartezy.github.io/DrHuang_CDRatio/').catch(function(){});
-
-                // 針對外部的 KMUH Drugs 加入 prerender / prefetch 提示標籤
-                const link = document.createElement('link');
-                link.rel = 'prerender';
-                link.href = 'https://sites.google.com/view/kmuoph-drugs/';
-                document.head.appendChild(link);
-            }, 3500);
-        });
-    </script>
-</body>
-</html>
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('
